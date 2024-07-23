@@ -1,0 +1,13 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    "window.titleBarStyle": "custom",
+    "window.commandCenter": false,
+    "workbench.tree.indent": 12,
+    "workbench.editor.wrapTabs": true,
+    "explorer.compactFolders": false,
+    "editor.fontFamily": "\"JetBrainsMono Nerd Font Mono\", 'Droid Sans Mono', 'monospace', monospace",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 15,
+    "workbench.colorTheme": "Sapphire (Dim)",
+    "terminal.integrated.defaultProfile.linux": "zsh",
+}

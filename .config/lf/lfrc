@@ -1,0 +1,61 @@
+set hidden true
+set drawbox
+
+# set an enviroment first in /etc/environment called LF_BOOKMARK_PATH
+cmd bookmark_jump ${{
+    res="$(cat $LF_BOOKMARK_PATH/$(ls $LF_BOOKMARK_PATH | fzf))"
+    lf -remote "send $id cd \"$res\""
+}}
+
+cmd bookmark_create ${{
+    echo "create a new bookmark:"
+    read ans
+    echo $PWD > $LF_BOOKMARK_PATH/$ans
+}}
+
+cmd yank-dirname $dirname -- "$f" | head -c-1 | xclip -i -selection clipboard
+cmd yank-path $printf '%s' "$fx" | xclip -i -selection clipboard
+cmd open-with-gui &$@ $fx ## opens with a gui application outside lf client
+cmd open-with-cli $$@ $fx ## opens with a cli application inside lf client
+
+cmd z %{{
+	result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
+	lf -remote "send $id cd \"$result\""
+}}
+
+cmd zi ${{
+	result="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
+	lf -remote "send $id cd \"$result\""
+}}
+
+cmd on-cd &{{
+        zoxide add "$PWD"
+}}
+
+cmd fzf_jump ${{
+    res="$(find . | fzf --reverse --header='Find and Jump')"
+    if [ -n "$res" ]; then
+        if [ -d "$res" ]; then
+            cmd="cd"
+        else
+            cmd="select"
+        fi
+        res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+        lf -remote "send $id $cmd \"$res\""
+    fi
+}}
+
+
+map av $vi $fx
+map ad :delete
+map acdd z
+map acdi zi
+map afi :yank-path
+map afo :yank-dirname
+map f :fzf_jump
+map amf push %touch<space>
+map amd push %mkdir<space>
+map abc :bookmark_create
+map abj :bookmark_jump
+map O push :open-with-gui<space> ## input application
+map o push :open-with-cli<space> ## input application

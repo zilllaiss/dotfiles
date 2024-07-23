@@ -1,0 +1,11 @@
+keymap M-h GOTO_HOME
+
+# go to previous or next buffer
+keymap M-LEFT PREV
+keymap M-RIGHT NEXT
+
+# copy current URL
+keymap C-y EXTERN
+
+# copy selected URL under cursor
+keymap M-y EXTERN_LINK

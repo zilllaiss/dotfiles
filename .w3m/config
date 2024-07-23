@@ -1,0 +1,1 @@
+extbrowser sh -c 'printf %s "$0" | xclip -selection clipboard'

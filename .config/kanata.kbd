@@ -1,0 +1,42 @@
+(defcfg
+	process-unmapped-keys yes
+)
+
+(defsrc
+	grv ins end ;; 3 buttons
+	tab home
+	caps h j k l ;; 5 buttons
+	lshift
+	lctrl lalt ralt comp ;; 4 buttons
+)
+
+(deflayer default
+	grv end ins
+	lalt @normalmode
+	lshift _ _ _ _
+	scrlck
+	@pgctrl @c-caps tab ralt
+)
+
+(deflayer normal
+	_ _ _
+	_ @defaultmode
+	_ _ _ _ _
+	_
+	_ _ _ _
+)
+
+(deflayer pglayer
+	_ _ _
+	_ _
+	_ _ pgdn pgup _
+	_
+	_ _ _ _
+)
+
+(defalias
+	c-caps (tap-hold-press 200 200 caps lctrl)
+	pgctrl (tap-hold-press 200 200 comp (layer-toggle pglayer))
+	defaultmode (tap-hold-press 200 200 home (layer-switch default)) 
+	normalmode (tap-hold-press 200 200 home (layer-switch normal)) 
+)
