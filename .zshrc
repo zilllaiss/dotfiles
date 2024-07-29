@@ -35,7 +35,7 @@ bindkey '^[[B' history-substring-search-down
 
 # end of zsh exclusive 
 
-EDITOR=vim
+EDITOR=nvim
 
 # path
 export PATH=$PATH:~/bin
@@ -66,6 +66,8 @@ eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/zsh.toml)"
 eval "$(zoxide init --cmd cd bash)"
 
 # aliases
+alias v=vim
+alias nv=nvim
 alias yt-dlp=yt-dlp_linux
 alias ls=lsd
 alias lsa="lsd -l -a"
@@ -97,7 +99,7 @@ list() {
         time)
             lsd -arlt ;;
         *)
-            lsd -all -l ;;
+            lsd -al ;;
     esac
 }
 
