@@ -73,10 +73,10 @@ alias lst="lsd -ltr"
 alias lss="lsd -lSr"
 alias zlf="~/zlf.sh"
 alias q=exit
-alias zshrc="vim ~/.zshrc"
+alias zrc="vim ~/.zshrc"
 alias termmode="sudo systemctl isolate multi-user.target"
 alias graphmode="sudo systemctl isolate graphical.target"
-
+ 
 # alias f=fzf
 
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls $realpath'
@@ -93,9 +93,9 @@ ytdlp() {
 list() {
     case "$1" in
         size)
-            lsd -all -r -l -S ;;
+            lsd -arlS ;;
         time)
-            lsd -all -r -l -t ;;
+            lsd -arlt ;;
         *)
             lsd -all -l ;;
     esac
@@ -114,6 +114,10 @@ search () {
 # this is just a function which extend fzf bindings so it wouldn't conflict with apps that use original bindings
 f () {
 	fzf --bind 'enter:become(readlink -f {} | xclip -selection clipboard && echo item\ copied\ to\ clipboard)'	
+}
+
+function stop() {
+	sleep $2 && kill $(pgrep $1)
 }
 
 # For Termux
