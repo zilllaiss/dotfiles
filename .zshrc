@@ -22,10 +22,23 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 # zsh exclusive
+
+# plugins setup
+
+export ZSHPLUG=~/.config/zsh
+
+if [ ! -d "$ZSHPLUG" ]; then
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/zsh-syntax-highlighting \
+	&& git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.config/zsh/zsh-autosuggestions \
+	&& git clone https://github.com/zsh-users/zsh-history-substring-search.git ~/.config/zsh/zsh-history-substring-search \
+	&& git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ~/.config/zsh/zsh-you-should-use \
+	&& git clone https://github.com/Aloxaf/fzf-tab ~/.config/zsh/fzf-tab
+fi
+
 source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zsh/zsh-history-substring-search.zsh
-source ~/.config/zsh/you-should-use.plugin.zsh
+source ~/.config/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ~/.config/zsh/zsh-you-should-use/you-should-use.plugin.zsh
 source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 bindkey "^H" backward-delete-char
@@ -35,7 +48,8 @@ bindkey '^[[B' history-substring-search-down
 
 # end of zsh exclusive 
 
-EDITOR=nvim
+export EDITOR=nvim
+export LF_BOOKMARK_PATH=~/.cache/lf/bookmarks
 
 # path
 export PATH=$PATH:~/bin
@@ -43,6 +57,7 @@ export PATH=$PATH:~/go/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/.bun/bin
 export PATH=$PATH:~/.local/bin
+export PATH=$PATH:~/bin/nvim/bin
 
 # other variable exports
 export WWW_HOME="www.duckduckgo.com"
@@ -78,7 +93,9 @@ alias q=exit
 alias zrc="vim ~/.zshrc"
 alias termmode="sudo systemctl isolate multi-user.target"
 alias graphmode="sudo systemctl isolate graphical.target"
- 
+alias g1="~/game1.sh"
+alias g2="~/game2.sh"
+
 # alias f=fzf
 
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls $realpath'
