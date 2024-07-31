@@ -82,6 +82,8 @@ eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/zsh.toml)"
 eval "$(zoxide init --cmd cd bash)"
 
 # aliases
+alias md=mkdir
+alias mf=touch
 alias v=vim
 alias nv=nvim
 alias yt-dlp=yt-dlp_linux
