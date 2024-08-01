@@ -3,40 +3,55 @@
 )
 
 (defsrc
+	esc
 	grv ins end ;; 3 buttons
-	tab home
+	tab w home
 	caps h j k l ;; 5 buttons
-	lshift
+	lshift x v b
 	lctrl lalt ralt comp ;; 4 buttons
 )
 
 (deflayer default
-	grv end ins
-	lalt @normalmode
+	@vimmode
+	@vimmode-tog end ins
+	lalt _ @normalmode
 	lshift _ _ _ _
-	scrlck
+	scrlck _ _ _
 	@pgctrl @c-caps tab ralt
 )
 
 (deflayer normal
-	_ _ _
-	_ @defaultmode
-	_ _ _ _ _
 	_
+	_ _ _
+	_ _ @defaultmode
+	_ _ _ _ _
+	_ _ _ _
 	_ _ _ _
 )
 
+(deflayer vim
+	@defaultmode
+	_ end ins
+	lalt C-rght @normalmode
+	lshift lft down up rght
+	scrlck bspc _ C-lft
+	@pgctrl @c-caps tab ralt
+)
+
 (deflayer pglayer
-	_ _ _
-	_ _
-	_ _ pgdn pgup _
 	_
+	_ _ _
+	_ _ _
+	_ _ pgdn pgup _
+	_ _ _ _
 	_ _ _ _
 )
 
 (defalias
 	c-caps (tap-hold-press 200 200 caps lctrl)
 	pgctrl (tap-hold-press 200 200 comp (layer-toggle pglayer))
+	vimmode-tog (tap-hold-press 200 200 grv (layer-toggle vim))
+	vimmode (tap-hold-press 200 200 esc (layer-switch vim))
 	defaultmode (tap-hold-press 200 200 home (layer-switch default)) 
 	normalmode (tap-hold-press 200 200 home (layer-switch normal)) 
 )
