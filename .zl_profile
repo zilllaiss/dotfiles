@@ -19,14 +19,16 @@ alias lst="lsd -ltr"
 alias lss="lsd -lSr"
 alias zlf="~/zlf.sh"
 alias q=exit
+alias yz=yazi
+alias cl=clear
 alias brc="vim ~/.bashrc"
 alias zrc="vim ~/.zshrc"
 alias zlrc="vim ~/.zl_profile"
 alias termmode="sudo systemctl isolate multi-user.target"
 alias graphmode="sudo systemctl isolate graphical.target"
+alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 alias g1="~/game1.sh"
 alias g2="~/game2.sh"
-alias yz=yazi
 
 # other variable exports
 export WWW_HOME="www.duckduckgo.com"
@@ -75,9 +77,9 @@ yy() {
 	rm -f -- "$tmp"
 }
 
-search () {
-  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+# find inside files
+fif () {
+	find . -type f -exec grep --color=always -H $1 {} \;
 }
 
 # this is just a function which extend fzf bindings so it wouldn't conflict with apps that use original bindings
