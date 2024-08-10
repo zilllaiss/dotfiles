@@ -59,3 +59,12 @@ map abc :bookmark_create
 map abj :bookmark_jump
 map O push :open-with-gui<space> ## input application
 map o push :open-with-cli<space> ## input application
+map J half-down
+map K half-up
+map <enter> open
+
+# kitty and pistol previewer
+
+# set previewer ~/.config/lf/previewer
+# set cleaner ~/.config/lf/cleaner
+

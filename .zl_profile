@@ -27,8 +27,6 @@ alias zlrc="vim ~/.zl_profile"
 alias termmode="sudo systemctl isolate multi-user.target"
 alias graphmode="sudo systemctl isolate graphical.target"
 alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
-alias g1="~/game1.sh"
-alias g2="~/game2.sh"
 
 # other variable exports
 export WWW_HOME="www.duckduckgo.com"

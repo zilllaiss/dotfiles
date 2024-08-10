@@ -1,4 +1,5 @@
 source ~/.zl_profile
+source ~/.zl_others
 
 fpath=(/home/xyassraist/.config/lf/zsh $fpath)
 
@@ -14,7 +15,7 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
-bindkey -v
+bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '~/.zshrc'
