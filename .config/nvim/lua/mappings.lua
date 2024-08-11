@@ -1,11 +1,15 @@
 require "nvchad.mappings"
-
 -- add yours here
 
+local b = require "base46"
 local map = vim.keymap.set
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
+
+map("n", "<leader>tr", function()
+  b.toggle_transparency()
+end, { desc = "toggle transparency" })
 
 -- harpoon setup
 local harpoon = require "harpoon"
