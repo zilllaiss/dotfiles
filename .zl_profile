@@ -14,7 +14,7 @@ alias v=vim
 alias nv=nvim
 alias yt-dlp=yt-dlp_linux
 alias ls=lsd
-alias lsa="lsd -l -a"
+alias lsa="lsd -la"
 alias lst="lsd -ltr"
 alias lss="lsd -lSr"
 alias zlf="~/zlf.sh"
@@ -27,7 +27,9 @@ alias zlrc="vim ~/.zl_profile"
 alias termmode="sudo systemctl isolate multi-user.target"
 alias graphmode="sudo systemctl isolate graphical.target"
 alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
-
+alias code=codium
+alias grep="grep --color=always"
+alias stow="stow --no-folding"
 # other variable exports
 export WWW_HOME="www.duckduckgo.com"
 
@@ -77,16 +79,21 @@ yy() {
 
 # find inside files
 fif () {
-	find . -type f -exec grep --color=always -H $1 {} \;
+	find . -type f -exec grep -H $1 {} \;
 }
 
-# this is just a function which extend fzf bindings so it wouldn't conflict with apps that use original bindings
+# this is just a function which extend fzf bindings so it wouldn't conflict with apps that use the original bindings
 f () {
 	fzf --bind 'enter:become(readlink -f {} | xclip -selection clipboard && echo item\ copied\ to\ clipboard)'	
 }
 
-function stop() {
+stop () {
 	sleep $2 && kill $(pgrep $1)
+}
+
+# fedora
+rpml () {
+	rpm -qa | grep -E  $1 | sort
 }
 
 # For Termux
