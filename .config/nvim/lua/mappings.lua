@@ -18,12 +18,38 @@ local harpoon = require "harpoon"
 harpoon:setup()
 -- REQUIRED
 
+-- i'm too lazy to figure out how to add this in another file instead
+-- basic telescope configuration
+local conf = require("telescope.config").values
+local function toggle_telescope(harpoon_files)
+  local file_paths = {}
+  for _, item in ipairs(harpoon_files.items) do
+    table.insert(file_paths, item.value)
+  end
+
+  require("telescope.pickers")
+    .new({}, {
+      prompt_title = "Harpoon",
+      finder = require("telescope.finders").new_table {
+        results = file_paths,
+      },
+      previewer = conf.file_previewer {},
+      sorter = conf.generic_sorter {},
+    })
+    :find()
+end
+
+vim.keymap.set("n", "<C-e>", function()
+  toggle_telescope(harpoon:list())
+end, { desc = "Open harpoon window" })
+
 map("n", "<leader>za", function()
   harpoon:list():add()
-end)
+end, { desc = "add file (with the position) to harpoon" })
+
 map("n", "<leader>zm", function()
   harpoon.ui:toggle_quick_menu(harpoon:list())
-end)
+end, { desc = "open harpoon menu" })
 
 map("n", "<leader>z1", function()
   harpoon:list():select(1)

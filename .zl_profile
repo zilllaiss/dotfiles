@@ -30,6 +30,9 @@ alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 alias code=codium
 alias grep="grep --color=always"
 alias stow="stow --no-folding"
+alias lg=lazygit
+alias dnf=dnf5
+
 # other variable exports
 export WWW_HOME="www.duckduckgo.com"
 
