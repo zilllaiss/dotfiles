@@ -33,6 +33,8 @@ lspconfig.gopls.setup {
   settings = {
     gopls = {
       completeUnimported = true,
+      gofumpt = true,
+      staticcheck = true,
       -- usePlaceholders = true,
       analyses = {
         unusedparams = true,
