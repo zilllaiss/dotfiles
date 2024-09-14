@@ -32,6 +32,10 @@ alias grep="grep --color=always"
 alias stow="stow --no-folding"
 alias lg=lazygit
 alias dnf=dnf5
+alias gb="go build -o ./bin/cmd"
+
+# kitty-specific
+alias icat="kitty +kitten icat"
 
 # other variable exports
 export WWW_HOME="www.duckduckgo.com"

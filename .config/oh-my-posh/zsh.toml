@@ -63,6 +63,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
       "{{ if eq .Code 0 }}green{{ end }}",
    ]
    template = '❯ '
+   # newline = true
 
 [secondary_prompt]
     background = 'transparent'

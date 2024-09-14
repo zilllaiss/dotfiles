@@ -4,6 +4,7 @@ local options = {
     go = { "goimports", "gofmt" },
     templ = { "templ" },
 	python = { "isort", "black" },
+	javascript = { "prettier" },
     -- run :help conform-formatters to see all formatters
     -- css = { "prettier" },
     -- html = { "prettier" },
