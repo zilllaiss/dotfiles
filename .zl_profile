@@ -2,7 +2,6 @@ export EDITOR=vim
 export LF_BOOKMARK_PATH=~/.cache/lf/bookmarks
 
 # path
-export PATH=$PATH:~/bin
 export PATH=$PATH:~/go/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/.bun/bin
@@ -86,7 +85,7 @@ yy() {
 
 # find inside files
 fif () {
-	find . -type f -exec grep -H $1 {} \;
+	find . -type f -exec grep --color=always -H $1 {} \;
 }
 
 # this is just a function which extend fzf bindings so it wouldn't conflict with apps that use the original bindings

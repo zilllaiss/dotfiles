@@ -3,8 +3,8 @@ local options = {
     lua = { "stylua" },
     go = { "goimports", "gofmt" },
     templ = { "templ" },
-	python = { "isort", "black" },
-	javascript = { "prettier" },
+    python = { "isort", "black" },
+    javascript = { "prettier" },
     -- run :help conform-formatters to see all formatters
     -- css = { "prettier" },
     -- html = { "prettier" },

@@ -10,4 +10,7 @@
     "editor.fontSize": 15,
     "workbench.colorTheme": "Sapphire (Dim)",
     "terminal.integrated.defaultProfile.linux": "zsh",
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
 }
