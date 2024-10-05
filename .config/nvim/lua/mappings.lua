@@ -56,21 +56,21 @@ vim.keymap.set("n", "<C-e>", function()
   toggle_telescope(harpoon:list())
 end, { desc = "Open harpoon window" })
 
-map("n", "<leader>za", function()
+map("n", "<leader>zha", function()
   harpoon:list():add()
 end, { desc = "add file (with the position) to harpoon" })
 
-map("n", "<leader>zm", function()
+map("n", "<leader>zhm", function()
   harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = "open harpoon menu" })
 
-map("n", "<leader>z1", function()
+map("n", "<leader>zh1", function()
   harpoon:list():select(1)
 end)
-map("n", "<leader>z2", function()
+map("n", "<leader>zh2", function()
   harpoon:list():select(2)
 end)
-map("n", "<leader>z3", function()
+map("n", "<leader>zh3", function()
   harpoon:list():select(3)
 end)
 map("n", "<leader>z4", function()
@@ -86,3 +86,26 @@ map("n", "<C-S-N>", function()
 end)
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+
+-- Flash
+local flash = require "flash"
+
+map({ "n", "x", "o" }, "s", function()
+  flash.jump()
+end, { desc = "Flash" })
+
+map({ "n", "x", "o" }, "S", function()
+  flash.treesitter()
+end, { desc = "Flash" })
+
+map("o", "r", function()
+  flash.remote()
+end, { desc = "Remote Flash" })
+
+map({ "o", "x" }, "R", function()
+  flash.treesitter_search()
+end, { desc = "Treesitter Search" })
+
+map("c", "<c-s>", function()
+  flash.toggle()
+end, { desc = "Toggle Flash Search" })

@@ -19,7 +19,8 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "gopls", "staticcheck",
+        "gopls",
+        "staticcheck",
       },
     },
   },
@@ -28,6 +29,28 @@ return {
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
+  {
+    "Wansmer/treesj",
+    keys = { "<space>m", "<space>j", "<space>s" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
+    config = function()
+      require("treesj").setup {}
+    end,
+  },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup {}
+    end,
+  },
+
   --
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
