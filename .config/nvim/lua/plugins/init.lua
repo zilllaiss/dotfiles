@@ -48,6 +48,7 @@ return {
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup {}
+	-- cheatsheet: ysi<char> to surround and ds<char> to delete
     end,
   },
 

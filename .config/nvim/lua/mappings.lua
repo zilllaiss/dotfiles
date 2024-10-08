@@ -5,19 +5,24 @@ local b = require "base46"
 local map = vim.keymap.set
 local unmap = vim.keymap.del
 
+map("n", "<M-j>", "<C-d>")
+map("n", "<M-k>", "<C-u>")
+
+-- forcing myself to use harpoon as it is more efficient that way
 unmap("n", "<tab>")
 unmap("n", "<S-tab>")
+unmap("n", "<leader>h")
 
-map("n", "<M-]>", function()
-  require("nvchad.tabufline").next()
-end, { desc = "buffer goto next" })
-
-map("n", "<M-[>", function()
-  require("nvchad.tabufline").prev()
-end, { desc = "buffer goto prev" })
+-- map("n", "<M-]>", function()
+--   require("nvchad.tabufline").next()
+-- end, { desc = "buffer goto next" })
+--
+-- map("n", "<M-[>", function()
+--   require("nvchad.tabufline").prev()
+-- end, { desc = "buffer goto prev" })
 
 map("n", "<leader>zk", "<cmd>NvCheatsheet<CR>")
-map("n", ";", ":", { desc = "CMD enter command mode" })
+map("n", "<leader>zl", "<cmd>LspRestart<CR>", { desc = "Restart your junky LSP" })
 map("i", "jk", "<ESC>")
 map("i", "<tab>", "    ", { noremap = true, silent = true })
 map("n", "<leader>tr", function()
@@ -56,36 +61,34 @@ vim.keymap.set("n", "<C-e>", function()
   toggle_telescope(harpoon:list())
 end, { desc = "Open harpoon window" })
 
-map("n", "<leader>zha", function()
+map("n", "<leader>ha", function()
   harpoon:list():add()
 end, { desc = "add file (with the position) to harpoon" })
 
-map("n", "<leader>zhm", function()
+map("n", "<leader>hh", function()
   harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = "open harpoon menu" })
 
-map("n", "<leader>zh1", function()
+map("n", "<leader>h1", function()
   harpoon:list():select(1)
 end)
-map("n", "<leader>zh2", function()
+map("n", "<leader>h2", function()
   harpoon:list():select(2)
 end)
-map("n", "<leader>zh3", function()
+map("n", "<leader>h3", function()
   harpoon:list():select(3)
 end)
-map("n", "<leader>z4", function()
+map("n", "<leader>h4", function()
   harpoon:list():select(4)
 end)
 
 -- Toggle previous & next buffers stored within Harpoon list
-map("n", "<C-S-P>", function()
+map("n", "<M-[>", function()
   harpoon:list():prev()
 end)
-map("n", "<C-S-N>", function()
+map("n", "<M-]>", function()
   harpoon:list():next()
 end)
-
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
 -- Flash
 local flash = require "flash"

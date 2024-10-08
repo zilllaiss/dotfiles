@@ -6,8 +6,8 @@ fpath=(/home/xyassraist/.config/lf/zsh $fpath)
 export ZSHPLUG=~/.config/zsh
 
 if [ ! -d "$ZSHPLUG" ]; then
-	mkdir ~/.config/zsh
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/zsh-syntax-highlighting 
+  mkdir ~/.config/zsh
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/zsh-syntax-highlighting 
   git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.config/zsh/zsh-autosuggestions 
   git clone https://github.com/zsh-users/zsh-history-substring-search.git ~/.config/zsh/zsh-history-substring-search 
   git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ~/.config/zsh/zsh-you-should-use 
@@ -58,7 +58,17 @@ bindkey '^[[B' history-substring-search-down
 # end of zsh exclusive 
 
 # init
-eval "$(fzf --zsh)"
-eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/zsh.toml)"
-eval "$(zoxide init --cmd cd zsh)"
+if command -v fzf &> /dev/null
+then
+	eval "$(fzf --zsh)"
+fi
 
+if command -v oh-my-posh &> /dev/null
+then
+	eval "$(oh-my-posh init zsh --config ~/.config/oh-my-posh/zsh.toml)"
+fi
+
+if command -v zoxide &> /dev/null
+then
+	eval "$(zoxide init --cmd cd zsh)"
+fi
