@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -u
+
+./init_basic
+
+echo "initializing all components..."
+DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+
+if [[ $DISTRO_ID == "fedora" ]]; then
+    sudo dnf copr enable atim/lazygit -y
+    sudo dnf install zoxide lsd jq lazygit trash-cli neovim -y
+fi
+
+if [[ $DISTRO_ID == "ubuntu" ]]; then
+    sudo apt install zoxide lsd jq trash-cli neovim
+
+    # lazygit
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit $CUSTOM_BIN
+fi
+
+curl https://api.github.com/repos/junegunn/fzf/releases/latest | jq -r '.assets[3] | .browser_download_url' | xargs wget -O - | tar -xz -C $CUSTOM_BIN
+
+# this one is the official install script for fzf
+# git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+# ~/.fzf/install
+
+# oh-my-posh
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
+
+#lf
+wget -O - https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz | tar -xz -C $CUSTOM_BIN
+
+echo "all components are successfully installed"

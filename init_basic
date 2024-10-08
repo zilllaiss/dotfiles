@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -u
+
+if [ ! -d $CUSTOM_BIN ]; then
+    mkdir $CUSTOM_BIN
+fi
+
+echo "initializing basic components..."
+DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+
+if [[ $DISTRO_ID == "fedora" ]]; then
+    sudo dnf install stow vim
+fi
+
+if [[ $DISTRO_ID == "ubuntu" ]]; then
+    sudo apt install stow vim
+fi
+
+stow -d ~/dotfiles -t ~ .
+
+echo "all basic components are successfully installed"

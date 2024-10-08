@@ -1,11 +1,13 @@
 export EDITOR=vim
 export LF_BOOKMARK_PATH=~/.cache/lf/bookmarks
 
+export CUSTOM_BIN=~/.local/bin
+
 # path
 export PATH=$PATH:~/go/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/.bun/bin
-export PATH=$PATH:~/.local/share/bin
+export PATH=$PATH:$CUSTOM_BIN
 export PATH=$PATH:~/bin/nvim/bin
 export PATH=$PATH:~/zig
 
@@ -124,19 +126,6 @@ gccb () {
 	gcc -o bin/cmd $1
 }
 
-
-init_all () {
-	echo "initializing..."
-    DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
-
-	if [[ $DISTRO_ID == "fedora" ]]; then
-		sudo dnf install zoxide lsd
-	fi
-
-	if [[ $DISTRO_ID == "ubuntu" ]]; then
-        sudo apt install zoxide lsd
-    fi
-}
 
 # For Termux
 # export DISPLAY=":1"

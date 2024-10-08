@@ -5,7 +5,8 @@ local options = {
     templ = { "templ" },
     python = { "isort", "black" },
     javascript = { "prettier" },
-    -- run :help conform-formatters to see all formatters
+    sh = { "shfmt" },
+    -- visit https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters to see all formatters
     -- css = { "prettier" },
     -- html = { "prettier" },
   },

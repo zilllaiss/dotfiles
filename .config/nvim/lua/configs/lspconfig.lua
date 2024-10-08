@@ -13,6 +13,7 @@ local servers = {
   "templ",
   "clangd",
   "zls",
+  "bashls",
 }
 
 -- lsps with default config

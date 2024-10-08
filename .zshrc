@@ -18,12 +18,12 @@ if [ ! -d "$ZSHPLUG" ]; then
   git clone https://github.com/zsh-users/zsh-completions.git ~/.config/zsh/zsh-completions
 fi
 
-source ~/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-source ~/.config/zsh/zsh-you-should-use/you-should-use.plugin.zsh
-source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
-source ~/.config/zsh/zsh-completions/zsh-completions.plugin.zsh
+source $ZSHPLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSHPLUG/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSHPLUG/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $ZSHPLUG/zsh-you-should-use/you-should-use.plugin.zsh
+source $ZSHPLUG/fzf-tab/fzf-tab.plugin.zsh
+source $ZSHPLUG/zsh-completions/zsh-completions.plugin.zsh
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
