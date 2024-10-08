@@ -1,5 +1,8 @@
 source ~/.zl_profile
-source ~/.zl_others
+
+if [ -f ~/.zl_others ]; then
+  source ~/.zl_others
+fi
 
 fpath=(/home/xyassraist/.config/lf/zsh $fpath)
 
