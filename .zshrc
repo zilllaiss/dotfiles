@@ -9,7 +9,7 @@ fpath=(/home/xyassraist/.config/lf/zsh $fpath)
 export ZSHPLUG=~/.config/zsh
 
 if [ ! -d "$ZSHPLUG" ]; then
-  mkdir ~/.config/zsh
+  mkdir $ZSHPLUG
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/zsh-syntax-highlighting 
   git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.config/zsh/zsh-autosuggestions 
   git clone https://github.com/zsh-users/zsh-history-substring-search.git ~/.config/zsh/zsh-history-substring-search 

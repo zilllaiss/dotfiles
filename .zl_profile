@@ -74,6 +74,8 @@ ytdlp() {
     yt-dlp $1 -f bestvideo[height=480][vcodec!=vp9]+bestaudio/best --config-locations ~/Personal/Zill_Laiss/coding/yt-config.txt
 }
 
+# I mostly don't use this, but it's still here for the switch case syntax
+# as I often forget about it
 list() {
     case "$1" in
         size)
