@@ -1,5 +1,8 @@
 export EDITOR=vim
 export LF_BOOKMARK_PATH=~/.cache/lf/bookmarks
+if [ ! -d $LF_BOOKMARK_PATH ]; then
+	mkdir -p $LF_BOOKMARK_PATH
+fi
 
 export CUSTOM_BIN=~/.local/bin
 
@@ -59,8 +62,8 @@ export WWW_HOME="www.duckduckgo.com"
 export FZF_DEFAULT_OPTS="
 	--bind 'ctrl-e:become(echo {+} | xargs -o $EDITOR)'
 	--bind 'ctrl-o:become(xdg-open {})'
-	--bind 'ctrl-l:become(readlink -f {} | xclip -selection clipboard && echo item\ copied\ to\ clipboard)'	
-	--bind 'ctrl-y:execute(readlink -f {} | xclip -selection clipboard && echo item\ copied\ to\ clipboard)'	
+	--bind 'ctrl-l:become(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	
+	--bind 'ctrl-y:execute(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	
 	--bind '?:toggle-preview'
 "
 # loading nvm

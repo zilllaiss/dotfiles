@@ -13,8 +13,8 @@ cmd bookmark_create ${{
     echo $PWD > $LF_BOOKMARK_PATH/$ans
 }}
 
-cmd yank-dirname $dirname -- "$f" | head -c-1 | xclip -i -selection clipboard
-cmd yank-path $printf '%s' "$fx" | xclip -i -selection clipboard
+cmd yank-dirname $dirname -- "$f" | head -c-1 | wl-copy 
+cmd yank-path $printf '%s' "$fx" | wl-copy 
 cmd open-with-gui &$@ $fx ## opens with a gui application outside lf client
 cmd open-with-cli $$@ $fx ## opens with a cli application inside lf client
 

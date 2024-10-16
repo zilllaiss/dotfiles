@@ -18,12 +18,6 @@ if [ ! -d "$ZSHPLUG" ]; then
   git clone https://github.com/zsh-users/zsh-completions.git ~/.config/zsh/zsh-completions
 fi
 
-source $ZSHPLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $ZSHPLUG/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $ZSHPLUG/zsh-history-substring-search/zsh-history-substring-search.zsh
-source $ZSHPLUG/zsh-you-should-use/you-should-use.plugin.zsh
-source $ZSHPLUG/fzf-tab/fzf-tab.plugin.zsh
-source $ZSHPLUG/zsh-completions/zsh-completions.plugin.zsh
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -75,3 +69,12 @@ if command -v zoxide &> /dev/null
 then
 	eval "$(zoxide init --cmd cd zsh)"
 fi
+
+# plugins
+# it's important they are to be placed at the end
+source $ZSHPLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSHPLUG/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSHPLUG/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $ZSHPLUG/zsh-you-should-use/you-should-use.plugin.zsh
+source $ZSHPLUG/fzf-tab/fzf-tab.plugin.zsh
+source $ZSHPLUG/zsh-completions/zsh-completions.plugin.zsh
