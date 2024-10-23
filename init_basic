@@ -32,14 +32,14 @@ termux)
     pkg install vim unzip grep fzf lf
     ;;
 arch)
-    sudo pacman -S flatpak btop ntfs-3g wl-clipboard ufw rsync less man-db fd udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf
+    sudo pacman -S flatpak stow btop ntfs-3g wl-clipboard ufw rsync less man-db fd udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf
     ;;
 fedora)
-    sudo dnf install vim zoxide
+    sudo dnf install stow vim zoxide
     amd64_install
     ;;
 ubuntu)
-    sudo apt install vim zoxide
+    sudo apt install stow vim zoxide
     amd64_install
     ;;
 esac
