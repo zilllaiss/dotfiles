@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+
+flatpak_basic () {
+    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse com.github.tchx84.Flatseal org.onlyoffice.desktopeditors org.localsend.localsend_app
+}
+
+case "$DISTRO_ID" in
+arch)
+    sudo pacman -S gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight
+    flatpak_basic
+    ;;
+esac
+

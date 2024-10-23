@@ -11,9 +11,23 @@ amd64_install() {
     curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
 }
 
+if [ -d "/data/data/com.termux" ]; then
+    DISTRO_ID=termux
+else
+    DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+fi
+
 case "$DISTRO_ID" in
 termux)
     pkg install lsd jq lazygit neovim oh-my-posh git-delta
+    ;;
+
+arch)
+    sudo pacman -S lsd trash-cli neovim jq git-delta
+    amd64_install
+
+    # paru
+    curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -xz -C $CUSTOM_BIN
     ;;
 
 fedora)

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -u
-export DISTRO_ID=
+DISTRO_ID=
 
 if [ ! -d $CUSTOM_BIN ]; then
     mkdir $CUSTOM_BIN
@@ -29,14 +29,17 @@ fi
 
 case "$DISTRO_ID" in
 termux)
-    pkg install stow vim unzip grep fzf lf
+    pkg install vim unzip grep fzf lf
+    ;;
+arch)
+    sudo pacman -S flatpak btop ntfs-3g wl-clipboard ufw rsync less man-db fd udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf
     ;;
 fedora)
-    sudo dnf install stow vim zoxide
+    sudo dnf install vim zoxide
     amd64_install
     ;;
 ubuntu)
-    sudo apt install stow vim zoxide
+    sudo apt install vim zoxide
     amd64_install
     ;;
 esac
@@ -44,3 +47,7 @@ esac
 stow -d ~/dotfiles -t ~ .
 
 echo "all basic components are successfully installed"
+
+if [[ "$DISTRO_ID" == "arch"]]; then
+    echo "You might want to reboot your system before installing gui"
+fi
