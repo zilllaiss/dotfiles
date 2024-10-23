@@ -11,6 +11,7 @@ export PATH=$PATH:~/go/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/.bun/bin
 export PATH=$PATH:$CUSTOM_BIN
+export PATH=$PATH:$CUSTOM_BIN/paru
 export PATH=$PATH:~/bin/nvim/bin
 export PATH=$PATH:~/zig
 
@@ -44,12 +45,23 @@ then
 	alias rmr=trash-rm
 fi
 
+if command -v bat &> /dev/null
+then
+	alias bat="bat --paging never"
+	alias cat="bat"
+fi
+
 if command -v lsd &> /dev/null
 then
 	alias ls=lsd
 	alias lsa="lsd -la"
 	alias lst="lsd -ltr"
 	alias lss="lsd -lSr"
+fi
+
+if command -v go-task &> /dev/null
+then
+	alias task=go-task
 fi
 
 # kitty-specific
@@ -111,7 +123,7 @@ fif () {
 
 # this is just a function which extend fzf bindings so it wouldn't conflict with apps that use the original bindings
 f () {
-	fzf --bind 'enter:become(readlink -f {} | xclip -selection clipboard && echo item\ copied\ to\ clipboard)'	
+	fzf --bind 'enter:become(readlink -f {} | wl-copy && echo "item copied to the clipboard")'
 }
 
 stop () {

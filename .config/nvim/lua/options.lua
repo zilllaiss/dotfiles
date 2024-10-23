@@ -7,6 +7,9 @@ require "nvchad.options"
 
 vim.wo.relativenumber = true
 vim.wo.linebreak = true
+vim.wo.colorcolumn = "100"
 
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+
+
