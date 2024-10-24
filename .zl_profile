@@ -53,7 +53,7 @@ fi
 
 if command -v lsd &> /dev/null
 then
-	alias ls=lsd
+	alias ls="lsd --group-dirs first"
 	alias lsa="lsd -la"
 	alias lst="lsd -ltr"
 	alias lss="lsd -lSr"
