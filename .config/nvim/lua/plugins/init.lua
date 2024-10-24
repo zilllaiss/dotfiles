@@ -15,7 +15,7 @@ return {
         "html",
         "css",
         "markdown",
-                "markdown_inline",
+        "markdown_inline",
         "go",
         "templ",
         "zig",
@@ -50,11 +50,11 @@ return {
       require("treesj").setup {}
     end,
   },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
+  -- {
+  --   "folke/flash.nvim",
+  --   event = "VeryLazy",
+  --   opts = {},
+  -- },
   {
     -- cheatsheet: ysiw<char> to surround and ds<char> to delete
     "kylechui/nvim-surround",

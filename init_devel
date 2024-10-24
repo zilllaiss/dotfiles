@@ -8,5 +8,12 @@ DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
 wget -O - https://github.com/go-task/task/releases/download/v3.39.2/task_linux_amd64.tar.gz | tar -xz -C $CUSTOM_BIN
 # if [[ $DISTRO_ID == "fedora" ]]; then
 # fi
+#
+case "$DISTRO_ID" in 
+arch)
+    sudo pacman -S go go-task nodejs npm
+
+    ;;
+esac
 
 echo "successfully initializing development environment"

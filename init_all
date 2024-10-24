@@ -23,7 +23,7 @@ termux)
     ;;
 
 arch)
-    sudo pacman -S lsd trash-cli neovim jq git-delta
+    sudo pacman -S lsd trash-cli neovim jq git-delta --noconfirm
     amd64_install
 
     # paru
