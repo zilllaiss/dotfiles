@@ -4,7 +4,7 @@ set -u
 DISTRO_ID=
 
 if [ ! -d $CUSTOM_BIN ]; then
-    mkdir $CUSTOM_BIN
+    mkdir -p $CUSTOM_BIN
 fi
 
 echo "initializing basic components..."
