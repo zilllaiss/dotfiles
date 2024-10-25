@@ -10,7 +10,9 @@ map("n", "<M-k>", "<C-u>")
 -- forcing myself to use harpoon as it is more efficient that way
 unmap("n", "<tab>")
 unmap("n", "<S-tab>")
+
 unmap("n", "<leader>h")
+unmap("n", "<space>e")
 
 -- map("n", "<M-]>", function()
 --   require("nvchad.tabufline").next()
@@ -19,6 +21,8 @@ unmap("n", "<leader>h")
 -- map("n", "<M-[>", function()
 --   require("nvchad.tabufline").prev()
 -- end, { desc = "buffer goto prev" })
+
+map("n", "<leader>e", require("treesj").toggle, { desc = "Toggle tree"})
 
 map("n", "<leader>zk", "<cmd>NvCheatsheet<CR>")
 map("n", "<leader>zl", "<cmd>LspRestart<CR>", { desc = "Restart your junky LSP" })

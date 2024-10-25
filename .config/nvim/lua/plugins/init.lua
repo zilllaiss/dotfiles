@@ -44,7 +44,7 @@ return {
   },
   {
     "Wansmer/treesj",
-    keys = { "<space>m", "<space>j", "<space>s" },
+    keys = { "<space>j", "<space>s" },
     dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
     config = function()
       require("treesj").setup {}
@@ -81,5 +81,16 @@ return {
       require("render-markdown").setup {}
     end,
     lazy = false,
+  },
+  {
+    "tadmccorkle/markdown.nvim",
+    ft = "markdown", -- or 'event = "VeryLazy"'
+    opts = function()
+      return require "configs.markdown"
+    end,
+    -- opts = {
+    --   -- configuration here or empty for defaults
+    --   -- mappings = false,
+    -- },
   },
 }
