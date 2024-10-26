@@ -3,6 +3,11 @@
 set -u
 DISTRO_ID=
 
+if [ -z "$CUSTOM_BIN" ]; then
+    echo "CUSTOM_BIN is not set or is empty. Exiting."
+    exit 1
+fi
+
 if [ ! -d $CUSTOM_BIN ]; then
     mkdir -p $CUSTOM_BIN
 fi

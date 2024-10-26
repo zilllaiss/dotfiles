@@ -2,6 +2,11 @@
 
 set -u
 
+if [ -z "$CUSTOM_BIN" ]; then
+    echo "CUSTOM_BIN is not set or is empty. Exiting."
+    exit 1
+fi
+
 ./init_basic
 
 echo "initializing all components..."
@@ -23,7 +28,7 @@ termux)
     ;;
 
 arch)
-    sudo pacman -S lsd trash-cli neovim jq git-delta --noconfirm
+    sudo pacman -S lsd kitty trash-cli neovim jq git-delta lazygit --noconfirm
     amd64_install
 
     # paru
