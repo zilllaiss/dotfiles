@@ -150,3 +150,7 @@ gccb () {
 # follow the tutorial here https://wiki.termux.com/wiki/Graphical_Environment
 alias vnc="vncserver -localhost"
 
+pg () {
+		# start or stop
+		pg_ctl -D $PREFIX/var/lib/postgresql $1
+}
