@@ -37,7 +37,7 @@ termux)
     pkg install vim stow unzip grep fzf lf
     ;;
 arch)
-    sudo pacman -S flatpak stow btop ntfs-3g wl-clipboard ufw rsync less man-db fd udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf --noconfirm
+    sudo pacman -S flatpak stow btop ntfs-3g wl-clipboard ufw rsync less man-db fd udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer --noconfirm 
     ;;
 fedora)
     sudo dnf install stow vim zoxide -y

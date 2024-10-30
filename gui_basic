@@ -8,8 +8,8 @@ flatpak_basic () {
 
 case "$DISTRO_ID" in
 arch)
-    sudo pacman -S gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular
-    flatpak_basic gnome-system-monitor
+    sudo pacman -S gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular qalculate-gtk kamoso gnome-sound-recorder gnome-system-monitor
+    flatpak_basic 
     ;;
 esac
 

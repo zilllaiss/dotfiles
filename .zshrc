@@ -69,6 +69,10 @@ if command -v zoxide &> /dev/null
 then
 	eval "$(zoxide init --cmd cd zsh)"
 fi
+if command -v trash-list &> /dev/null
+then
+	eval "$(trash --print-completion zsh)"
+fi
 
 # plugins
 # it's important they are to be placed at the end
