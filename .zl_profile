@@ -47,6 +47,7 @@ fi
 
 if command -v bat &> /dev/null
 then
+	# additionally, you might want to edit /etc/pacman.conf if you use Arch (btw) to enable paru color support
 	alias cat="bat --paging never"
 fi
 
