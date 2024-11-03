@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -u
+set -e
+
 DISTRO_ID=
 
 if [ -z "$CUSTOM_BIN" ]; then
@@ -37,7 +39,7 @@ termux)
     pkg install vim stow unzip grep fzf lf
     ;;
 arch)
-    sudo pacman -S flatpak stow btop ntfs-3g wl-clipboard ufw rsync less man-db fd udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer --noconfirm 
+    sudo pacman -S flatpak stow btop ntfs-3g wl-clipboard ufw rsync less man-db udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer --noconfirm 
     ;;
 fedora)
     sudo dnf install stow vim zoxide -y
@@ -49,10 +51,16 @@ ubuntu)
     ;;
 esac
 
+if [ -f ~/.bashrc ]; then
+	rm -f ~/.bashrc
+fi
+
 stow -d ~/dotfiles -t ~ .
+
+# source ~/.bashrc
 
 echo "all basic components are successfully installed"
 
-if [[ "$DISTRO_ID" == "arch"]]; then
+if [[ "$DISTRO_ID" == "arch" ]]; then
     echo "You might want to reboot your system before installing gui"
 fi

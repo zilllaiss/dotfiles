@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -u
+set -e
 
 if [ -z "$CUSTOM_BIN" ]; then
     echo "CUSTOM_BIN is not set or is empty. Exiting."
@@ -28,11 +29,11 @@ termux)
     ;;
 
 arch)
-    sudo pacman -S lsd kitty trash-cli neovim jq git-delta lazygit --noconfirm
+    sudo pacman -S lsd kitty trash-cli neovim fd ripgrep jq git-delta lazygit --noconfirm
     amd64_install
 
     # paru
-    curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x -C $CUSTOM_BIN
+    curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x --zstd -C $CUSTOM_BIN
     ;;
 
 fedora)

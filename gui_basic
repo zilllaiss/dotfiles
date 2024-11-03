@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
+set -e
+set -u
+
 DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
 
 flatpak_basic () {
-    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse com.github.tchx84.Flatseal org.onlyoffice.desktopeditors org.localsend.localsend_app org.freefilesync.FreeFileSync
+    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse com.github.tchx84.Flatseal org.onlyoffice.desktopeditors org.localsend.localsend_app org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
 }
 
 case "$DISTRO_ID" in
 arch)
-    sudo pacman -S gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular qalculate-gtk kamoso gnome-sound-recorder gnome-system-monitor
+    sudo pacman -S gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular qalculate-gtk kamoso gnome-sound-recorder gnome-system-monitor --noconfirm
     flatpak_basic 
     ;;
 esac
