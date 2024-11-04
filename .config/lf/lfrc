@@ -53,8 +53,8 @@ map acdi zi
 map afi :yank-path
 map afo :yank-dirname
 map f :fzf_jump
-map amf push %touch<space>
-map amd push %mkdir<space>
+map ato push %touch<space>
+map amk push %mkdir<space>
 map abc :bookmark_create
 map abj :bookmark_jump
 map O push :open-with-gui<space> ## input application

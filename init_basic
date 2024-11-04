@@ -39,7 +39,13 @@ termux)
     pkg install vim stow unzip grep fzf lf
     ;;
 arch)
-    sudo pacman -S flatpak stow btop ntfs-3g wl-clipboard ufw rsync less man-db udftools dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer --noconfirm 
+    # basic requirement is that you've already installed git (and flatpak) beforehand
+
+    sudo pacman -S ufw
+    sudo systemctl enable --now ufw
+
+    sudo pacman -S stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer --noconfirm 
+
     ;;
 fedora)
     sudo dnf install stow vim zoxide -y
@@ -60,7 +66,3 @@ stow -d ~/dotfiles -t ~ .
 # source ~/.bashrc
 
 echo "all basic components are successfully installed"
-
-if [[ "$DISTRO_ID" == "arch" ]]; then
-    echo "You might want to reboot your system before installing gui"
-fi

@@ -18,7 +18,6 @@ export PATH=$PATH:~/zig
 # aliases
 alias v=vim
 alias nv=nvim
-alias yt-dlp=yt-dlp_linux
 alias zlf="~/zlf.sh"
 alias q=exit
 alias yz=yazi
@@ -43,6 +42,11 @@ then
 	alias rmrf=trash-empty
 	alias rmres=trash-restore
 	alias rmr=trash-rm
+fi
+
+if command -v yt-dlp_linux &> /dev/null
+then
+	alias yt-dlp=yt-dlp_linux
 fi
 
 if command -v bat &> /dev/null
@@ -85,10 +89,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # functions
 
-ytdlp() {
-    yt-dlp $1 -f bestvideo[height=480][vcodec!=vp9]+bestaudio/best --config-locations ~/Personal/Zill_Laiss/coding/yt-config.txt
-}
-
 # I mostly don't use this, but it's still here for the switch case syntax
 # as I often forget about it
 list() {
@@ -100,6 +100,19 @@ list() {
         *)
             lsd -al ;;
     esac
+}
+
+reload () {
+    CUR_SHELL=$(basename $SHELL)
+
+    case "$CUR_SHELL" in
+    zsh)
+        source ~/.zshrc
+		;;
+    bash)
+        source ~/.bashrc
+        ;;
+    esac 
 }
 
 lfcd () {
