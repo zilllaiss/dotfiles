@@ -12,10 +12,11 @@ DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
 #
 case "$DISTRO_ID" in
 arch)
-    sudo pacman -S go go-task nodejs npm postgresql --noconfirm
+    sudo pacman -S go go-task nodejs npm postgresql --noconfirm --needed
     go install github.com/a-h/templ/cmd/templ@latest
 
     flatpak install io.dbeaver.DBeaverCommunity -y
+    paru -S vscodium-bin
     ;;
 esac
 

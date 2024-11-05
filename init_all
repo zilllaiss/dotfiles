@@ -14,7 +14,9 @@ echo "initializing all components..."
 
 amd64_install() {
     # oh-my-posh
-    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
+    if command -v oh-my-posh &> /dev/null; then
+        curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
+    fi
 }
 
 if [ -d "/data/data/com.termux" ]; then
@@ -29,11 +31,13 @@ termux)
     ;;
 
 arch)
-    sudo pacman -S lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit --noconfirm
+    sudo pacman -S lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit --noconfirm --needed
     amd64_install
 
     # paru
-    curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x --zstd -C $CUSTOM_BIN
+    if command -v paru &> /dev/null; then
+        curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x --zstd -C $CUSTOM_BIN
+    fi
     ;;
 
 fedora)

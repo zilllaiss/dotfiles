@@ -17,6 +17,7 @@ export PATH=$PATH:~/zig
 
 # aliases
 alias v=vim
+alias ve="vim -y" # working with (natural) languages with non-ascii characters JP & AR is a nightmare in vim 
 alias nv=nvim
 alias zlf="~/zlf.sh"
 alias q=exit
