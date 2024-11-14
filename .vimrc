@@ -10,3 +10,6 @@ augroup wayland_clipboard
   au!
   au TextYankPost * call system("wl-copy", @")
 augroup END
+
+set termbidi
+set arabicshape
