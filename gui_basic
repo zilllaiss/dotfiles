@@ -11,7 +11,7 @@ flatpak_basic () {
 
 case "$DISTRO_ID" in
 arch)
-    sudo pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular qalculate-gtk kamoso gnome-sound-recorder gnome-system-monitor kdeconnect spectacle
+    sudo pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular kcalc kamoso gnome-system-monitor kdeconnect spectacle kclock
 
     # for kdeconnect
     sudo ufw allow 1716:1764/udp

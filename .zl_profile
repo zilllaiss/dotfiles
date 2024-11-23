@@ -5,6 +5,7 @@ if [ ! -d $LF_BOOKMARK_PATH ]; then
 fi
 
 export CUSTOM_BIN=~/.local/bin
+export MANPAGER="nvim +Man!"
 
 # path
 export PATH=$PATH:~/go/bin
@@ -101,6 +102,10 @@ list() {
         *)
             lsd -al ;;
     esac
+}
+
+cpr () {
+	rsync --archive --chown=$USER:$USER $1 $2 
 }
 
 reload () {
