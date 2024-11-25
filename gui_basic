@@ -17,6 +17,11 @@ arch)
     sudo ufw allow 1716:1764/udp
     sudo ufw allow 1716:1764/tcp
 
+    # for noobs so they don't have to touch the terminal
+    if command -v paru &> /dev/null; then
+        paru -S octopi alpm_octopi_utils
+    fi
+
     flatpak_basic 
     ;;
 esac
