@@ -13,6 +13,7 @@ local servers = {
   "clangd",
   "zls",
   "bashls",
+  "sqls",
 }
 local util = require("lspconfig/util")
 local nvlsp = require "nvchad.configs.lspconfig"
