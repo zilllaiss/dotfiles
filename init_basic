@@ -45,7 +45,7 @@ arch)
     get ufw
     sudo systemctl enable --now ufw
 
-    get stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer
+    get stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch
     
     unalias get 
     ;;
