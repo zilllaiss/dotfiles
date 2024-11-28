@@ -40,14 +40,10 @@ termux)
     ;;
 arch)
     # basic requirement is that you've already installed git (and flatpak) beforehand
-    alias get="sudo pacman -S --noconfirm --needed"
-
-    get ufw
+    sudo pacman -S --noconfirm --needed ufw
     sudo systemctl enable --now ufw
 
-    get stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch
-    
-    unalias get 
+    sudo pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch
     ;;
 fedora)
     sudo dnf install stow vim zoxide -y
