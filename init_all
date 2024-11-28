@@ -31,7 +31,7 @@ termux)
     ;;
 
 arch)
-    sudo pacman -S lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit --noconfirm --needed
+    sudo pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
     amd64_install
 
     # paru

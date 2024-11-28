@@ -44,6 +44,8 @@ arch)
     sudo systemctl enable --now ufw
 
     sudo pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch
+
+    sudo chsh -s $(which zsh)
     ;;
 fedora)
     sudo dnf install stow vim zoxide -y
@@ -56,7 +58,11 @@ ubuntu)
 esac
 
 if [ -f ~/.bashrc ]; then
-	rm -f ~/.bashrc
+    if [ -f ~/.bashrc.bak ]; then 
+        rm -f ~/bashrc.bak
+    fi
+
+	mv ~/.bashrc ~/.bashrc.bak
 fi
 
 stow -d ~/dotfiles -t ~ .
