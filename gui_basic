@@ -16,6 +16,9 @@ flatpak_basic () {
 
 case "$DISTRO_ID" in
 arch)
+    bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
+    bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
+
     pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular kalk kamoso gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter
 
     # for kdeconnect

@@ -163,6 +163,10 @@ gccb () {
 	gcc -o bin/cmd $1
 }
 
+pacr () {
+	sudo pacman -Rns $(pacman -Qdtq)
+}
+
 
 # For Termux
 # export DISPLAY=":1"

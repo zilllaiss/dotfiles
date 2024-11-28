@@ -48,8 +48,9 @@ arch)
     pacman -S --noconfirm --needed ufw
     systemctl enable --now ufw
 
-    pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch
+    pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch vnstat nethogs
 
+    systemctl enable --now vnstat
     chsh -s $(which zsh)
     ;;
 fedora)

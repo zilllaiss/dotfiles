@@ -39,9 +39,10 @@ arch)
     pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
     amd64_install
 
-    # paru
     if command -v paru >> /dev/null; then
         curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x --zstd -C $CUSTOM_BIN
+
+        bash -c 'echo Color >> /etc/pacman.conf'
     fi
     ;;
 
