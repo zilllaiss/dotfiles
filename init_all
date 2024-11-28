@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$EUID" -ne 0 ]; then
+  sudo "$0" "$@"
+  exit $?
+fi
+
 set -u
 set -e
 
@@ -31,7 +36,7 @@ termux)
     ;;
 
 arch)
-    sudo pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
+    pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
     amd64_install
 
     # paru
@@ -41,20 +46,20 @@ arch)
     ;;
 
 fedora)
-    sudo dnf copr enable atim/lazygit -y
-    sudo dnf install lsd jq lazygit trash-cli neovim git-delta -y
+    dnf copr enable atim/lazygit -y
+    dnf install lsd jq lazygit trash-cli neovim git-delta -y
     amd64_install
     ;;
 
 ubuntu)
-    sudo apt install lsd jq trash-cli neovim
+    apt install lsd jq trash-cli neovim
     amd64_install
 
     # lazygit
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
-    sudo install lazygit $CUSTOM_BIN
+    install lazygit $CUSTOM_BIN
     ;;
 
 esac
