@@ -167,6 +167,11 @@ pacr () {
 	sudo pacman -Rns $(pacman -Qdtq)
 }
 
+# I know you can define global ignore (which I already did), but better do this as well to avoid my own absentmindedness
+initpro () {
+	printf ".env \n.ps \nbin \ntmp \ntemp" >> .gitignore
+}
+
 
 # For Termux
 # export DISPLAY=":1"
