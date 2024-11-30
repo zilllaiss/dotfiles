@@ -52,10 +52,10 @@ map("n", "<leader>h4", function()
 end)
 
 -- Toggle previous & next buffers stored within Harpoon list
-map("n", "<M-[>", function()
+map("n", "<S-M-[>", function()
   harpoon:list():prev()
 end)
 
-map("n", "<M-]>", function()
+map("n", "<S-M-]>", function()
   harpoon:list():next()
 end)

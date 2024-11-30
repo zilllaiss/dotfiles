@@ -7,7 +7,6 @@ local unmap = vim.keymap.del
 map("n", "<M-j>", "<C-d>")
 map("n", "<M-k>", "<C-u>")
 
--- forcing myself to use harpoon as it is more efficient that way
 unmap("n", "<tab>")
 unmap("n", "<S-tab>")
 
@@ -17,13 +16,13 @@ unmap("n", "<space>m")
 
 require("configs.harpoon")
 
--- map("n", "<M-]>", function()
---   require("nvchad.tabufline").next()
--- end, { desc = "buffer goto next" })
---
--- map("n", "<M-[>", function()
---   require("nvchad.tabufline").prev()
--- end, { desc = "buffer goto prev" })
+map("n", "<M-]>", function()
+  require("nvchad.tabufline").next()
+end, { desc = "buffer goto next" })
+
+map("n", "<M-[>", function()
+  require("nvchad.tabufline").prev()
+end, { desc = "buffer goto prev" })
 
 map("n", "<leader>zk", "<cmd>NvCheatsheet<CR>")
 map("n", "<leader>zl", "<cmd>LspRestart<CR>", { desc = "Restart your junky LSP" })

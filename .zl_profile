@@ -34,7 +34,6 @@ alias code=codium
 alias grep="grep --color=always"
 alias stow="stow --no-folding"
 alias lg=lazygit
-alias gb="go build -o ./bin/cmd"
 alias wrk=go-wrk
 
 if command -v trash &> /dev/null
@@ -161,6 +160,18 @@ gccb () {
 	fi
     
 	gcc -o bin/cmd $1
+}
+
+gb () { 
+	local goname=
+
+	if [ -z $1 ]; then
+		goname=cmd
+	else
+		goname=$1
+	fi
+
+	go build -o ./bin/$goname 
 }
 
 pacr () {
