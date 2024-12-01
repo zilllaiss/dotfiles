@@ -44,11 +44,12 @@ return {
   },
   {
     "Wansmer/treesj",
-    keys = { "<space>m", "<space>j", "<space>s" },
+    keys = { "<space>j" },
     dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
     config = function()
       require "configs.treesj"
     end,
+    lazy = false,
   },
   -- {
   --   "folke/flash.nvim",
@@ -94,5 +95,12 @@ return {
     --   -- configuration here or empty for defaults
     --   -- mappings = false,
     -- },
+  },
+  {
+    -- support TODO, FIX, PERF, NOTE, FIX, WARNING
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+    lazy = false,
   },
 }

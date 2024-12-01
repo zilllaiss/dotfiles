@@ -1,6 +1,7 @@
 -- harpoon setup
 local harpoon = require "harpoon"
 local map = vim.keymap.set
+local unmap = vim.keymap.del
 
 -- REQUIRED
 harpoon:setup()
@@ -34,7 +35,9 @@ map("n", "<leader>ha", function()
   harpoon:list():add()
 end, { desc = "add file (with the position) to harpoon" })
 
-map("n", "<leader>hh", function()
+unmap("n", "<M-h>")
+
+map("n", "<M-h>", function()
   harpoon.ui:toggle_quick_menu(harpoon:list())
 end, { desc = "open harpoon menu" })
 

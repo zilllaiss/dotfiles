@@ -12,7 +12,7 @@ unmap("n", "<S-tab>")
 
 unmap("n", "<leader>h")
 unmap("n", "<space>e")
-unmap("n", "<space>m")
+-- unmap("n", "<space>m")
 
 require("configs.harpoon")
 
@@ -33,3 +33,5 @@ map("n", "<leader>tr", function()
 end, { desc = "toggle transparency" })
 map("n", "<leader>wr", "<cmd>set wrap!<CR>", { desc = "Toggle line wrap" })
 
+map("n", "<leader>ta", "<cmd>TodoLocList<CR>", { desc = "Show all todo" })
+map("n", "<leader>tt", "<cmd>TodoTelescope<CR>", { desc = "Search todos with Telescope" })

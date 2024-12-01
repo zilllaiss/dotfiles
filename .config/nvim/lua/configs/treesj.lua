@@ -25,4 +25,4 @@ treesj.setup {
   -- langs = {}, -- See the default presets in lua/treesj/langs
 }
 
-map("n", "<leader>e", treesj.toggle, { desc = "Toggle tree" })
+map("n", "<leader>j", treesj.toggle, { desc = "Toggle tree" })
