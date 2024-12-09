@@ -13,9 +13,9 @@ local servers = {
   "clangd",
   "zls",
   "bashls",
-  "sqls",
 }
-local util = require("lspconfig/util")
+
+local util = require "lspconfig/util"
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
@@ -48,6 +48,10 @@ lspconfig.gopls.setup {
       -- usePlaceholders = true,
       analyses = {
         unusedparams = true,
+      },
+      hints = {
+        assignVariableTypes = true,
+        constantValues = true,
       },
     },
   },

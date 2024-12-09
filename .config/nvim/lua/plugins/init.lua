@@ -19,6 +19,8 @@ return {
         "go",
         "templ",
         "zig",
+        "sql",
+        "javascript",
       },
     },
   },
