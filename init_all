@@ -5,7 +5,7 @@ if [ "$EUID" -ne 0 ]; then
   exit $?
 fi
 
-set -euo pipefile
+set -euo pipefail
 
 if [ -z "$CUSTOM_BIN" ]; then
     echo "CUSTOM_BIN is not set or is empty. Exiting."

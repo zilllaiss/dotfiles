@@ -5,7 +5,7 @@ if [ "$EUID" -ne 0 ]; then
   exit $?
 fi
 
-set -euo pipefile
+set -euo pipefail
 
 DISTRO_ID=
 
