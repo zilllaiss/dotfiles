@@ -5,8 +5,7 @@ if [ "$EUID" -ne 0 ]; then
   exit $?
 fi
 
-set -e
-set -u
+set -euo pipefile
 
 DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
 
@@ -19,7 +18,10 @@ arch)
     bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
     bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
 
-    pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter xdg-desktop-portal-gtk pdfarranger power-profiles-daemon krdc krfb ffmpegthumbs
+    pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger krdc krfb ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon
+
+    # for timeshift scheduler
+    systemctl enable --now cronie
 
     # for kdeconnect
     ufw allow 1716:1764/udp
