@@ -162,6 +162,10 @@ gccb () {
 	gcc -o bin/cmd $1
 }
 
+gitcount() {
+	git ls-files | xargs wc -l
+}
+
 gb () { 
 	local goname=
 
@@ -180,6 +184,7 @@ pacr () {
 
 # I know you can define global ignore (which I already did), but better do this as well to avoid my own absentmindedness
 initpro () {
+	git init
 	printf ".env \n.ps \nbin \ntmp \ntemp" >> .gitignore
 }
 

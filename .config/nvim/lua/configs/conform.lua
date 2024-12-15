@@ -6,7 +6,6 @@ local options = {
     python = { "isort", "black" },
     javascript = { "prettier" },
     sh = { "shfmt" },
-    sql = { "sqlfmt" }
     -- visit https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters to see all formatters
     -- css = { "prettier" },
     -- html = { "prettier" },

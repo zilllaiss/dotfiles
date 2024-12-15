@@ -16,11 +16,11 @@ unmap("n", "<space>e")
 
 require("configs.harpoon")
 
-map("n", "<M-]>", function()
+map({"n", "i"}, "<M-]>", function()
   require("nvchad.tabufline").next()
 end, { desc = "buffer goto next" })
 
-map("n", "<M-[>", function()
+map({"n", "i"}, "<M-[>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 

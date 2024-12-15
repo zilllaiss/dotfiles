@@ -10,7 +10,14 @@ set -euo pipefail
 DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
 
 flatpak_basic () {
-    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse com.github.tchx84.Flatseal org.onlyoffice.desktopeditors org.localsend.localsend_app org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
+    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse \
+    com.github.tchx84.Flatseal org.onlyoffice.desktopeditors org.localsend.localsend_app \
+    org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
+
+    # NOTE: installing both flatpak-kcm and flatseal seems redundant,
+    # but currently you can't set global setting for apps in flatpak-kcm.
+    # That seems flatseal is the way to go, but I like how flatpak-kcm
+    # integrates well with the system-settings.
 }
 
 case "$DISTRO_ID" in
@@ -18,7 +25,10 @@ arch)
     bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
     bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
 
-    pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger krdc krfb ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon
+    pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh \
+    gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor \
+    kdeconnect spectacle kclock kjournald khelpcenter pdfarranger krdc krfb ffmpegthumbs \
+    xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm
 
     # for timeshift scheduler
     systemctl enable --now cronie
