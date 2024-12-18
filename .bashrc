@@ -27,8 +27,16 @@ unset rc
 # custom configs start here
 source ~/.zl_profile
 
-eval "$(fzf --bash)"
-eval "$(oh-my-posh init bash --config ~/.config/oh-my-posh/zsh.toml)"
-eval "$(zoxide init --cmd cd bash)"
+if command -v oh-my-posh &> /dev/null; then
+	eval "$(fzf --bash)"
+fi
+
+if command -v oh-my-posh &> /dev/null; then
+	eval "$(oh-my-posh init bash --config ~/.config/oh-my-posh/zsh.toml)"
+fi
+
+if command -v oh-my-posh &> /dev/null; then
+	eval "$(zoxide init --cmd cd bash)"
+fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
