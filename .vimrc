@@ -3,6 +3,7 @@ set relativenumber
 set tabstop=4
 set ignorecase
 set smartcase
+set linebreak
 
 map <Leader><Space> :noh<CR>
 

@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 if [ "$EUID" -ne 0 ]; then
-  sudo "$0" "$@"
-  exit $?
+    sudo "$0" "$@"
+    exit $?
 fi
 
 set -euo pipefail
 
 DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
 
-flatpak_basic () {
+flatpak_basic() {
     flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse \
-    com.github.tchx84.Flatseal org.localsend.localsend_app \
-    org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
+        com.github.tchx84.Flatseal org.localsend.localsend_app \
+        org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
 
     # NOTE: installing both flatpak-kcm and flatseal seems redundant,
     # but currently you can't set global setting for apps in flatpak-kcm.
@@ -22,13 +22,33 @@ flatpak_basic () {
 
 case "$DISTRO_ID" in
 arch)
+    # this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
+    # using KDE font settings, etc.
     bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
-    bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
 
-    pacman -S --noconfirm gwenview timeshift strawberry firefox kolourpaint libreoffice-fresh \
-    gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor \
-    kdeconnect spectacle kclock kjournald khelpcenter pdfarranger krdc krfb ffmpegthumbs \
-    xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm
+    # GTK has rendering problem in low-end computers as it uses Vulkan now
+    printf "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)\nYou can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.\nAnswer (y/N): "
+
+    read -t 10 glopt
+    if [[ $glopt == y ]]; then
+        bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
+    fi
+
+    unset glopt
+
+    # NOTE: explanations for non-gui components that will be installed:
+    # - kcron: task scheduler will be available in the system settings
+    # - ffmpegthumbs: video thumbnails generator used by Dolphin
+    # - power-profiles-daemon: power profiles will be available. especially useful for
+    #     laptop
+    # - xdg-desktop-portal-gtk: make your GTK apps listen to portal settings. GTK_USE_PORTAL=1
+    #     must be set in /etc/environment
+    # - flatpak-kcm: settings for flatpak apps will be availabe in the system settings
+    # - krdc & krfb: both are useable with KDE connect for remote desktop
+    pacman -S --noconfirm gwenview timeshift amberol firefox kolourpaint libreoffice-fresh \
+        gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor \
+        kdeconnect spectacle kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie \
+        ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm
 
     # for timeshift scheduler
     systemctl enable --now cronie
@@ -38,11 +58,10 @@ arch)
     ufw allow 1716:1764/tcp
 
     # for noobs so they don't have to touch the terminal
-    if command -v paru &> /dev/null; then
+    if command -v paru &>/dev/null; then
         paru -S octopi alpm_octopi_utils
     fi
 
-    flatpak_basic 
+    flatpak_basic
     ;;
 esac
-

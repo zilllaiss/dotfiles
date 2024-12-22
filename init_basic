@@ -10,8 +10,7 @@ set -euo pipefail
 DISTRO_ID=
 
 if [ -z "$CUSTOM_BIN" ]; then
-    echo "CUSTOM_BIN is not set or is empty. Exiting."
-    exit 1
+    CUSTOM_BIN=~/.local/bin
 fi
 
 if [ ! -d $CUSTOM_BIN ]; then
@@ -20,6 +19,7 @@ fi
 
 echo "initializing basic components..."
 
+# lf and fzf might be available in you package managers, but usually they are out of date
 amd64_install() {
     #lf
     wget -O - https://github.com/gokcehan/lf/releases/latest/download/lf-linux-amd64.tar.gz | tar -xz -C $CUSTOM_BIN
@@ -43,7 +43,8 @@ termux)
     pkg install vim stow unzip grep fzf lf
     ;;
 arch)
-    # basic requirement is that you've already installed git (and flatpak) beforehand
+    # basic requirement is that you've already installed git (and flatpak, if you want to
+    # install GUI softwares) beforehand
     pacman -S --noconfirm --needed ufw
     systemctl enable --now ufw
 
