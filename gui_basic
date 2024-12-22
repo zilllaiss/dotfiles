@@ -45,10 +45,11 @@ arch)
     #     must be set in /etc/environment
     # - flatpak-kcm: settings for flatpak apps will be availabe in the system settings
     # - krdc & krfb: both are useable with KDE connect for remote desktop
-    pacman -S --noconfirm gwenview timeshift amberol firefox kolourpaint libreoffice-fresh \
-        gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder gnome-system-monitor \
-        kdeconnect spectacle kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie \
-        ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm
+    pacman -S --noconfirm gwenview timeshift amberol firefox-developer-edition kolourpaint \
+        libreoffice-fresh gnome-disk-utility filelight keepassxc okular kalk kamoso krecorder \
+        gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger \
+        krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \
+        kcron flatpak-kcm
 
     # for timeshift scheduler
     systemctl enable --now cronie
