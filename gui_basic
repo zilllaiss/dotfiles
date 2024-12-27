@@ -36,6 +36,15 @@ arch)
 
     unset glopt
 
+    # for noobs so they don't have to touch the terminal
+    pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+    pacman-key --lsign-key 3056513887B78AEB
+    pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
+	bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+	pacman -Syy --noconfirm pamac
+
     # NOTE: explanations for non-gui components that will be installed:
     # - kcron: task scheduler will be available in the system settings
     # - ffmpegthumbs: video thumbnails generator used by Dolphin
@@ -51,17 +60,14 @@ arch)
         krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \
         kcron flatpak-kcm
 
-    # for timeshift scheduler
-    systemctl enable --now cronie
+    # for timeshift scheduler. I'm commenting it out for now as for some reason snapshots created by
+    # the scheduler is corrupt and it once broke my system
+    # systemctl enable --now cronie
 
     # for kdeconnect
     ufw allow 1716:1764/udp
     ufw allow 1716:1764/tcp
 
-    # for noobs so they don't have to touch the terminal
-    if command -v paru &>/dev/null; then
-        paru -S octopi alpm_octopi_utils
-    fi
 
     flatpak_basic
     ;;

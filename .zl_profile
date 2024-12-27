@@ -104,7 +104,7 @@ list() {
 }
 
 cpr () {
-	rsync --archive --chown=$USER:$USER $1 $2 
+	rsync --archive -v --chown=$USER:$USER $1 $2 
 }
 
 reload () {

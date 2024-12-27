@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 
+u=$USER
+
 if [ "$EUID" -ne 0 ]; then
   sudo "$0" "$@"
   exit $?
 fi
 
-set -euo pipefail
 
 DISTRO_ID=
 
 if [ -z "$CUSTOM_BIN" ]; then
-    CUSTOM_BIN=~/.local/bin
+    export CUSTOM_BIN=~/.local/bin
 fi
 
-if [ ! -d $CUSTOM_BIN ]; then
-    mkdir -p $CUSTOM_BIN
-fi
+set -euo pipefail
+
+mkdir -p $CUSTOM_BIN
 
 echo "initializing basic components..."
 
@@ -51,7 +52,9 @@ arch)
     pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch vnstat nethogs
 
     systemctl enable --now vnstat
-    chsh -s $(which zsh)
+    chsh -s $(which zsh) $u
+
+    unset u
     ;;
 fedora)
     dnf install stow vim zoxide -y
@@ -63,15 +66,18 @@ ubuntu)
     ;;
 esac
 
-if [ -f ~/.bashrc ]; then
-    if [ -f ~/.bashrc.bak ]; then 
-        rm -f ~/bashrc.bak
+if [ -f ../.bashrc ]; then
+    if [ -f ../.bashrc.bak ]; then 
+        rm -f ../bashrc.bak
     fi
 
-	mv ~/.bashrc ~/.bashrc.bak
+	mv ../.bashrc ../.bashrc.bak
 fi
 
-stow -d ~/dotfiles -t ~ .
+# because I have it aliased to something else
+unset stow
+
+stow . --no-folding
 
 # source ~/.bashrc
 
