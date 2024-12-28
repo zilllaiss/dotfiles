@@ -71,4 +71,7 @@ arch)
 
     flatpak_basic
     ;;
+linuxmint)
+    apt install kdeconnect
+    ;;
 esac

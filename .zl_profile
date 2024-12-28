@@ -200,3 +200,7 @@ pg () {
 		# start or stop
 		pg_ctl -D $PREFIX/var/lib/postgresql $1
 }
+
+pqstart () {
+        pg_ctl -D /var/lib/postgres/data -l logfile start
+}

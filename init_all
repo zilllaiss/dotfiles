@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
-if [ "$EUID" -ne 0 ]; then
-  sudo "$0" "$@"
-  exit $?
-fi
-
+u=$(echo $USER)
 
 if [ -z "$CUSTOM_BIN" ]; then
-    CUSTOM_BIN=~/.local/bin
+    CUSTOM_BIN=/home/$u/.local/bin
 fi
 
 mkdir -p $CUSTOM_BIN
@@ -16,14 +12,24 @@ set -euo pipefail
 
 ./init_basic
 
+if [ "$EUID" -ne 0 ]; then
+  sudo "$0" "$@"
+  exit $?
+fi
+
 echo "initializing all components..."
 
 amd64_install() {
-    # oh-my-posh
-    if ! command -v oh-my-posh >> /dev/null; then
-        curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
-    fi
+    # nothing to do right now
+    echo "no additional softwares for x86_64"
 }
+
+echo 'do you want to install oh-my-posh (for shell customization)? (y/N)'
+read answer 
+
+if [[ $answer == y ]]; then 
+        curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
+fi
 
 if [ -d "/data/data/com.termux" ]; then
     DISTRO_ID=termux
@@ -62,6 +68,8 @@ ubuntu)
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
     install lazygit $CUSTOM_BIN
+    ;;
+linuxmin)
     ;;
 
 esac
