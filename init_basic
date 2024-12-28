@@ -51,19 +51,32 @@ arch)
 
     pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch vnstat nethogs
 
+    # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
+    pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv
+
     systemctl enable --now vnstat
     chsh -s $(which zsh) $u
+    
+    if ! command -v paru >> /dev/null; then
+        curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x --zstd -C $CUSTOM_BIN
+    fi
 
     unset u
+
     ;;
+
 fedora)
     dnf install stow vim zoxide -y
     amd64_install
+
     ;;
+
 ubuntu)
     apt install stow vim zoxide
     amd64_install
+
     ;;
+
 linuxmint)
     apt update
 

@@ -24,6 +24,17 @@ amd64_install() {
     echo "no additional softwares for x86_64"
 }
 
+flatpak_basic() {
+    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse \
+        com.github.tchx84.Flatseal org.localsend.localsend_app \
+        org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
+
+    # NOTE: installing both flatpak-kcm and flatseal seems redundant,
+    # but currently you can't set global setting for apps in flatpak-kcm.
+    # That seems flatseal is the way to go, but I like how flatpak-kcm
+    # integrates well with the system-settings.
+}
+
 echo 'do you want to install oh-my-posh (for shell customization)? (y/N)'
 read answer 
 
@@ -46,11 +57,44 @@ arch)
     pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
     amd64_install
 
-    if ! command -v paru >> /dev/null; then
-        curl https://api.github.com/repos/Morganamilo/paru/releases/latest | jq -r '.assets[2] | .browser_download_url' | xargs wget -O - | tar -x --zstd -C $CUSTOM_BIN
+    # this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
+    # using KDE font settings, etc.
+    bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
 
-        bash -c 'echo Color >> /etc/pacman.conf'
+    # GTK has rendering problem in low-end computers as it uses Vulkan now
+    printf "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)\nYou can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.\nAnswer (y/N): "
+
+    read -t 10 glopt
+    if [[ $glopt == y ]]; then
+        bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
     fi
+
+    unset glopt
+
+    # for noobs so they don't have to touch the terminal
+    pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+    pacman-key --lsign-key 3056513887B78AEB
+    pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
+	bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+	pacman -Syy --noconfirm pamac
+
+    pacman -S --noconfirm timeshift firefox-developer-edition kolourpaint \
+        libreoffice-fresh filelight keepassxc kalk kamoso krecorder \
+        gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger \
+        krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \
+        kcron flatpak-kcm
+
+    # for kde connect
+    ufw allow 1716:1764/udp
+    ufw allow 1716:1764/tcp
+
+    # for timeshift scheduler. I'm commenting it out for now as for some reason snapshots created by
+    # the scheduler is corrupt and it once broke my system
+    # systemctl enable --now cronie
+
+    flatpak_basic
     ;;
 
 fedora)
