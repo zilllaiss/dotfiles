@@ -40,6 +40,10 @@ return {
     },
   },
   {
+    "nvim-tree/nvim-tree.lua",
+    opts = require "configs.nvim-tree",
+  },
+  {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -90,13 +94,7 @@ return {
   {
     "tadmccorkle/markdown.nvim",
     ft = "markdown", -- or 'event = "VeryLazy"'
-    opts = function()
-      return require "configs.markdown"
-    end,
-    -- opts = {
-    --   -- configuration here or empty for defaults
-    --   -- mappings = false,
-    -- },
+    opts = require "configs.markdown",
   },
   {
     -- support TODO, FIX, PERF, NOTE, FIX, WARNING

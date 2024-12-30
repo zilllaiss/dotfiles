@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+stow . --no-folding
+
 u=$(echo $USER)
 
 if [ "$EUID" -ne 0 ]; then
@@ -97,7 +99,6 @@ fi
 # because I have it aliased to something else
 unset stow
 
-stow . --no-folding
 
 # source ~/.bashrc
 
