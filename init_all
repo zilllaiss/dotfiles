@@ -57,6 +57,8 @@ arch)
     pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
     amd64_install
 
+    sed -i 's/^#Color.*/Color/' "/etc/pacman.conf"
+
     # this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
     # using KDE font settings, etc.
     bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
@@ -113,7 +115,7 @@ ubuntu)
     tar xf lazygit.tar.gz lazygit
     install lazygit $CUSTOM_BIN
     ;;
-linuxmin)
+linuxmint)
     ;;
 
 esac
