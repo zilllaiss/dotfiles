@@ -10,9 +10,9 @@ local servers = {
   "basedpyright",
   "svelte",
   "templ",
-  "clangd",
   "zls",
   "bashls",
+  "tailwindcss",
 }
 
 local util = require "lspconfig/util"

@@ -35,3 +35,6 @@ map("n", "<leader>wr", "<cmd>set wrap!<CR>", { desc = "Toggle line wrap" })
 
 map("n", "<leader>ta", "<cmd>TodoLocList<CR>", { desc = "Show all todo" })
 map("n", "<leader>tt", "<cmd>TodoTelescope<CR>", { desc = "Search todos with Telescope" })
+
+map("n", "<leader>zts", "<cmd>LspStop tailwindcss<CR>", {desc = "Stop your janky tailwindcss LSP"})
+map("n", "<leader>ztp", "<cmd>LspStart tailwindcss<CR>", {desc = "Start your janky tailwindcss LSP and make your editor slow"})

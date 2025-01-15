@@ -15,7 +15,6 @@ arch)
     sudo pacman -S go go-task nodejs npm postgresql --noconfirm --needed
     go install github.com/a-h/templ/cmd/templ@latest
 
-    flatpak install io.dbeaver.DBeaverCommunity -y
     paru -S vscodium-bin
     ;;
 esac

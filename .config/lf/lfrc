@@ -45,9 +45,11 @@ cmd fzf_jump ${{
     fi
 }}
 
+cmd trash %trash-put -- $fx
 
 map av $vi $fx
-map ad :delete
+map ad :trash
+map D :delete
 map acdd z
 map acdi zi
 map afi :yank-path
