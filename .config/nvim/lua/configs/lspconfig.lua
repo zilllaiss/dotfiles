@@ -12,7 +12,7 @@ local servers = {
   "templ",
   "zls",
   "bashls",
-  "tailwindcss",
+  -- "tailwindcss",
 }
 
 local util = require "lspconfig/util"

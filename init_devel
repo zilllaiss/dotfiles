@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
-set -u
-set -e
+set -euo pipefail
 
 echo "initializing all development environment..."
 DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+
+if [ -d "/data/data/com.termux" ]; then
+    DISTRO_ID=termux
+else
+    DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+fi
 
 # if [[ $DISTRO_ID == "fedora" ]]; then
 # wget -O - https://github.com/go-task/task/releases/download/v3.39.2/task_linux_amd64.tar.gz | tar -xz -C $CUSTOM_BIN
@@ -16,6 +21,9 @@ arch)
     go install github.com/a-h/templ/cmd/templ@latest
 
     paru -S vscodium-bin
+    ;;
+termux)
+    pkg install go postgresql memcached
     ;;
 esac
 
