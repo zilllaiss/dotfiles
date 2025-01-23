@@ -1,5 +1,6 @@
 set hidden true
 set drawbox
+set filesep "\n"
 
 # set an enviroment first in /etc/environment called LF_BOOKMARK_PATH
 cmd bookmark_jump ${{
@@ -45,7 +46,16 @@ cmd fzf_jump ${{
     fi
 }}
 
-cmd trash %trash-put -- $fx
+# cmd trash %trash-put -- $fx
+
+# quick and dirty fix as the above command wont work if the file contains space
+cmd trash ${{
+	IFS=$'\n' read -d '' -r -a items <<< "$fx"
+
+	for item in "${items[@]}"; do
+    	trash-put -- "$item"
+	done
+}}
 
 map av $vi $fx
 map ad :trash
