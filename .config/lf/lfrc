@@ -57,6 +57,16 @@ cmd trash ${{
 	done
 }}
 
+cmd toggle_hex_view &{{
+    # reload is used to clear any previews that have been cached
+    if [ "$lf_user_hex_view" != true ]; then
+        lf -remote "send $id :set user_hex_view true; reload"
+    else
+        lf -remote "send $id :set user_hex_view false; reload"
+    fi
+}}
+
+map X toggle_hex_view
 map av $vi $fx
 map ad :trash
 map D :delete
@@ -77,6 +87,6 @@ map <enter> open
 
 # kitty and pistol previewer
 
-# set previewer ~/.config/lf/previewer
-# set cleaner ~/.config/lf/cleaner
+set previewer ~/.config/lf/previewer
+set cleaner ~/.config/lf/cleaner
 

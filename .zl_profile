@@ -126,6 +126,11 @@ lf () {
     cd "$(command lf -print-last-dir "$@")"
 }
 
+if command -v yazi &> /dev/null
+then
+	alias lf=yazi
+fi
+
 yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
 	yazi "$@" --cwd-file="$tmp"
@@ -204,3 +209,4 @@ pg () {
 pqstart () {
         pg_ctl -D /var/lib/postgres/data -l logfile start
 }
+
