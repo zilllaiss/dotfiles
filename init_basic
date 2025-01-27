@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+if [ -f ../.bashrc ]; then
+    if [ -f ../.bashrc.bak ]; then 
+        rm -f ../bashrc.bak
+    fi
+
+	mv ../.bashrc ../.bashrc.bak
+fi
+
 stow . --no-folding
 
 u=$(echo $USER)
@@ -8,7 +16,6 @@ if [ "$EUID" -ne 0 ]; then
   sudo "$0" "$@"
   exit $?
 fi
-
 
 DISTRO_ID=
 
@@ -72,6 +79,36 @@ arch)
 	bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
     pacman -S paru octopi
 
+    # daily update the repo so octopi is properly functional
+    
+    serviceaddr=/lib/systemd/system/pacman-daily-update
+
+    bash -c "echo '[Unit]
+Description=Run pacman-daily-update.service daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target' >> $serviceaddr.timer"
+
+    bash -c "echo '[Unit]
+Description=Update Pacman repository database daily
+After=network-online.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pacman -Sy
+Nice=19
+StandardOutput=null
+StandardError=journal
+' >> $serviceaddr.service"
+
+    systemctl enable --now $serviceaddr.timer
+
+    unset $serviceaddr
     unset u
 
     ;;
@@ -96,18 +133,6 @@ linuxmint)
     amd64_install
     ;;
 esac
-
-if [ -f ../.bashrc ]; then
-    if [ -f ../.bashrc.bak ]; then 
-        rm -f ../bashrc.bak
-    fi
-
-	mv ../.bashrc ../.bashrc.bak
-fi
-
-# because I have it aliased to something else
-unset stow
-
 
 # source ~/.bashrc
 
