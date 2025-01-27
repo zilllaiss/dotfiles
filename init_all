@@ -77,7 +77,7 @@ arch)
         libreoffice-fresh filelight keepassxc kalk kamoso krecorder \
         gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger \
         krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \
-        kcron flatpak-kcm
+        kcron flatpak-kcm sshfs
 
     # for kde connect
     ufw allow 1716:1764/udp
