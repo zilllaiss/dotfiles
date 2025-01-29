@@ -89,13 +89,14 @@ Description=Run pacman-daily-update.service daily
 [Timer]
 OnCalendar=daily
 Persistent=true
+AccuracySec=1h
 
 [Install]
 WantedBy=timers.target' >> $serviceaddr.timer"
 
     bash -c "echo '[Unit]
 Description=Update Pacman repository database daily
-After=network-online.target nss-lookup.target
+After=network-online.target nss-lookup.target graphical-session.target
 Wants=network-online.target
 
 [Service]
@@ -104,6 +105,11 @@ ExecStart=/usr/bin/pacman -Sy
 Nice=19
 StandardOutput=null
 StandardError=journal
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
 ' >> $serviceaddr.service"
 
     systemctl enable --now $serviceaddr.timer
@@ -114,9 +120,14 @@ StandardError=journal
     ;;
 
 fedora)
-    dnf install stow vim zoxide -y
-    amd64_install
+    dnf install -y vim zoxide btop wl-clipboard zsh fastfetch vnstat nethogs gnome-disk-utility mpv trash-cli
 
+    systemctl enable --now vnstat
+    chsh -s $(which zsh) $u
+
+    unset u
+
+    amd64_install
     ;;
 
 ubuntu)

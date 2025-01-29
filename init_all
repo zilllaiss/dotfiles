@@ -92,7 +92,8 @@ arch)
 
 fedora)
     dnf copr enable atim/lazygit -y
-    dnf install lsd jq lazygit trash-cli neovim git-delta -y
+    dnf install -y lsd jq lazygit neovim git-delta keepassxc timeshift kalk kclock
+
     amd64_install
     ;;
 
