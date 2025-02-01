@@ -75,7 +75,7 @@ fedora)
         kcron kweather 
 
     read -p "do you want to uninstall some redundant apps? [y/N]" remren
-    if [[ $remren == 'y']]; then 
+    if [[ $remren == y ]]; then 
         dnf remove -y dragon kcalc
     fi
 
