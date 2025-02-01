@@ -2,7 +2,8 @@ local options = {
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "goimports", "gofumpt" },
-    templ = { "templ" },
+    -- templ formatter is really janky
+    templ = { lsp_format = "never" },
     python = { "isort", "black" },
     javascript = { "prettier" },
     sh = { "shfmt" },

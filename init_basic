@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 
-if [ -f ../.bashrc ]; then
-    if [ -f ../.bashrc.bak ]; then 
-        rm -f ../bashrc.bak
-    fi
+echo "Reminder: dont run manually with sudo as it will cause unexpected behavior, 
+and this script prompt you for your password already."
 
-	mv ../.bashrc ../.bashrc.bak
+export u=$([ -n "$1" ] && echo "$1" || echo "$USER")
+
+# NOTE: I tested this thing and the script should not run twice anymore.
+# But if it still do then this is the culprit
+if [ "$EUID" -ne 0 ]; then
+    stow . --no-folding
+
+    sudo "$0" "$u" "$@"
+    exit $?
 fi
 
-stow . --no-folding
+if [ -f ../.bashrc ]; then
+    if [ -f ../.bashrc.bak ]; then rm -f ../bashrc.bak; fi
 
-u=$(echo $USER)
-
-if [ "$EUID" -ne 0 ]; then
-  sudo "$0" "$@"
-  exit $?
+    mv ../.bashrc ../.bashrc.bak
 fi
 
 DISTRO_ID=
@@ -42,11 +45,8 @@ amd64_install() {
     # ~/.fzf/install
 }
 
-if [ -d "/data/data/com.termux" ]; then
-    DISTRO_ID=termux
-else
-    DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
-fi
+export DISTRO_ID=$([ -d "/data/data/com.termux" ] && echo "termux" ||
+    echo $(grep '^ID' /etc/os-release | cut -d '=' -f2))
 
 case "$DISTRO_ID" in
 termux)
@@ -76,11 +76,11 @@ arch)
     pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
     pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
-	bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+    bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
     pacman -S paru octopi
 
     # daily update the repo so octopi is properly functional
-    
+
     serviceaddr=/lib/systemd/system/pacman-daily-update
 
     bash -c "echo '[Unit]
@@ -107,15 +107,14 @@ StandardOutput=null
 StandardError=journal
 Restart=on-failure
 RestartSec=10s
+StartLimitIntervalSec=2h
+StartLimitBurst=10
 
 [Install]
 WantedBy=multi-user.target
 ' >> $serviceaddr.service"
 
     systemctl enable --now $serviceaddr.timer
-
-    unset $serviceaddr
-    unset u
 
     ;;
 
@@ -124,8 +123,6 @@ fedora)
 
     systemctl enable --now vnstat
     chsh -s $(which zsh) $u
-
-    unset u
 
     amd64_install
     ;;

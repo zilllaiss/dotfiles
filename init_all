@@ -1,21 +1,8 @@
 #!/usr/bin/env bash
 
-u=$(echo $USER)
-
-if [ -z "$CUSTOM_BIN" ]; then
-    CUSTOM_BIN=/home/$u/.local/bin
-fi
-
-mkdir -p $CUSTOM_BIN
+source ./init_basic
 
 set -euo pipefail
-
-./init_basic
-
-if [ "$EUID" -ne 0 ]; then
-  sudo "$0" "$@"
-  exit $?
-fi
 
 echo "initializing all components..."
 
@@ -36,16 +23,10 @@ flatpak_basic() {
 }
 
 echo 'do you want to install oh-my-posh (for shell customization)? (y/N)'
-read answer 
+read answer
 
-if [[ $answer == y ]]; then 
-        curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
-fi
-
-if [ -d "/data/data/com.termux" ]; then
-    DISTRO_ID=termux
-else
-    DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+if [[ $answer == y ]]; then
+    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
 fi
 
 case "$DISTRO_ID" in
@@ -54,7 +35,7 @@ termux)
     ;;
 
 arch)
-    pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit 
+    pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit
     amd64_install
 
     sed -i 's/^#Color.*/Color/' "/etc/pacman.conf"
@@ -77,7 +58,7 @@ arch)
         libreoffice-fresh filelight keepassxc kalk kamoso krecorder \
         gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger \
         krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \
-        kcron flatpak-kcm sshfs
+        kcron flatpak-kcm sshfs kweather kcharselect
 
     # for kde connect
     ufw allow 1716:1764/udp
@@ -92,7 +73,13 @@ arch)
 
 fedora)
     dnf copr enable atim/lazygit -y
-    dnf install -y lsd jq lazygit neovim git-delta keepassxc timeshift kalk kclock
+    dnf install -y lsd jq lazygit neovim git-delta keepassxc timeshift kalk kclock krecorder \
+        kcron kweather 
+
+    read -p "do you want to uninstall some redundant apps?" remren
+    if [[ remren == 'y']]; then 
+        dnf remove -y dragon kcalc
+    fi
 
     amd64_install
     ;;
@@ -107,8 +94,7 @@ ubuntu)
     tar xf lazygit.tar.gz lazygit
     install lazygit $CUSTOM_BIN
     ;;
-linuxmint)
-    ;;
+linuxmint) ;;
 
 esac
 
