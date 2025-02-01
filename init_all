@@ -76,8 +76,8 @@ fedora)
     dnf install -y lsd jq lazygit neovim git-delta keepassxc timeshift kalk kclock krecorder \
         kcron kweather 
 
-    read -p "do you want to uninstall some redundant apps?" remren
-    if [[ remren == 'y']]; then 
+    read -p "do you want to uninstall some redundant apps? [y/N]" remren
+    if [[ $remren == 'y']]; then 
         dnf remove -y dragon kcalc
     fi
 
