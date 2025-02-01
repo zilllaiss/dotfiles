@@ -77,7 +77,7 @@ arch)
     pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
     bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
-    pacman -S paru octopi
+    pacman -S --needed paru octopi
 
     # daily update the repo so octopi is properly functional
 

@@ -52,9 +52,7 @@ arch)
         bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
     fi
 
-    unset glopt
-
-    pacman -S --noconfirm timeshift firefox-developer-edition kolourpaint \
+    pacman -S --noconfirm --needed timeshift firefox-developer-edition kolourpaint \
         libreoffice-fresh filelight keepassxc kalk kamoso krecorder \
         gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger \
         krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \

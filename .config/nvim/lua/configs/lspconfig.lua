@@ -5,7 +5,6 @@ local lspconfig = require "lspconfig"
 
 -- EXAMPLE
 local servers = {
-  "html",
   "cssls",
   "basedpyright",
   "svelte",
@@ -57,9 +56,17 @@ lspconfig.gopls.setup {
   },
 }
 
+lspconfig.html.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+  filetypes = { "html", "gotmpl" },
+}
+
 lspconfig.emmet_language_server.setup {
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
   filetypes = { "html", "gotmpl", "templ" },
 }
+
