@@ -22,8 +22,7 @@ flatpak_basic() {
     # integrates well with the system-settings.
 }
 
-echo 'do you want to install oh-my-posh (for shell customization)? (y/N)'
-read answer
+read -p 'do you want to install oh-my-posh (for shell customization)? (y/N)' answer
 
 if [[ $answer == y ]]; then
     curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
@@ -36,6 +35,7 @@ termux)
 
 arch)
     pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit
+
     amd64_install
 
     sed -i 's/^#Color.*/Color/' "/etc/pacman.conf"
@@ -45,9 +45,10 @@ arch)
     bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
 
     # GTK has rendering problem in low-end computers as it uses Vulkan now
-    printf "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)\nYou can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.\nAnswer (y/N): "
+    read -p "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)
+    You can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.
+    Answer (y/N): " glopt
 
-    read glopt
     if [[ $glopt == y ]]; then
         bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
     fi
