@@ -65,7 +65,9 @@ arch)
 
     # for timeshift scheduler. I'm commenting it out for now as for some reason snapshots created by
     # the scheduler is corrupt and it once broke my system
-    # systemctl enable --now cronie
+    # UPDATE: let's try whether installing grub-btrfs will change this
+    systemctl enable --now cronie
+    sed -i 's/^ExecStart.*/ExecStart=\/usr\/bin\/grub-btrfsd --syslog -t/' "/etc/systemd/system/grub-btrfsd.service"
 
     flatpak_basic
     ;;
