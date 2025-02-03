@@ -54,10 +54,10 @@ arch)
     fi
 
     pacman -S --noconfirm --needed timeshift firefox-developer-edition kolourpaint \
-        libreoffice-fresh filelight keepassxc kalk kamoso krecorder \
-        gnome-system-monitor kdeconnect spectacle kclock kjournald khelpcenter pdfarranger \
-        krdc krfb systemdgenie ffmpegthumbs xdg-desktop-portal-gtk power-profiles-daemon \
-        kcron flatpak-kcm sshfs kweather kcharselect
+        libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
+        kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
+        xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
+        kcharselect qmmp
 
     # for kde connect
     ufw allow 1716:1764/udp
@@ -75,7 +75,7 @@ arch)
 fedora)
     dnf copr enable atim/lazygit -y
     dnf install -y lsd jq lazygit neovim git-delta keepassxc timeshift kalk kclock krecorder \
-        kcron kweather 
+        kcron kweather qmmp
 
     read -p "do you want to uninstall some redundant apps? [y/N]" remren
     if [[ $remren == y ]]; then 

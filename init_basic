@@ -62,10 +62,13 @@ arch)
     sed -i 's/^--latest.*/--latest 10/' "/etc/xdg/reflector/reflector.conf"
     systemctl enable --now reflector.service reflector.timer
 
-    pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer fastfetch vnstat nethogs
+    pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
+        exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
+        fastfetch vnstat nethogs
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
-    pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv
+    pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv kalk kamoso krecorder \
+        spectacle
 
     systemctl enable --now vnstat
     chsh -s $(which zsh) $u
@@ -119,7 +122,8 @@ WantedBy=multi-user.target
     ;;
 
 fedora)
-    dnf install -y vim zoxide btop wl-clipboard zsh fastfetch vnstat nethogs gnome-disk-utility mpv trash-cli
+    dnf install -y vim zoxide btop wl-clipboard zsh fastfetch vnstat nethogs gnome-disk-utility \
+        mpv trash-cli python3-shtab
 
     systemctl enable --now vnstat
     chsh -s $(which zsh) $u
