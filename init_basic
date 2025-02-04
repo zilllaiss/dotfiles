@@ -82,43 +82,6 @@ arch)
     bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
     pacman -S --noconfirm --needed paru octopi
 
-    # daily update the repo so octopi is properly functional
-
-    serviceaddr=/lib/systemd/system/pacman-daily-update
-
-    bash -c "echo '[Unit]
-Description=Run pacman-daily-update.service daily
-
-[Timer]
-OnCalendar=daily
-Persistent=true
-AccuracySec=1h
-
-[Install]
-WantedBy=timers.target' > $serviceaddr.timer"
-
-    bash -c "echo '[Unit]
-Description=Update Pacman repository database daily
-After=network-online.target nss-lookup.target graphical-session.target
-Wants=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/pacman -Sy
-Nice=19
-StandardOutput=null
-StandardError=journal
-Restart=on-failure
-RestartSec=10s
-StartLimitIntervalSec=2h
-StartLimitBurst=10
-
-[Install]
-WantedBy=multi-user.target
-' > $serviceaddr.service"
-
-    systemctl enable --now $serviceaddr.timer
-
     ;;
 
 fedora)
