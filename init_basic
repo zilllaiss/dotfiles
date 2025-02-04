@@ -82,6 +82,10 @@ arch)
     bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
     pacman -S --noconfirm --needed paru octopi
 
+    # daily update the repo so octopi is properly functional
+
+    serviceaddr=/lib/systemd/system/pacman-daily-update
+
     ;;
 
 fedora)
