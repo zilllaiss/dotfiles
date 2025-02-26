@@ -64,7 +64,7 @@ arch)
 
     pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
         exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
-        fastfetch vnstat nethogs
+        fastfetch vnstat nethogs cryfs
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
     pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv kalk kamoso krecorder \
