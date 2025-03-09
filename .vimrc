@@ -5,6 +5,8 @@ set ignorecase
 set smartcase
 set linebreak
 
+syntax on
+
 map <Leader><Space> :noh<CR>
 
 augroup wayland_clipboard
