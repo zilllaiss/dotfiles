@@ -5,7 +5,8 @@ export u=$([ -n "$1" ] && echo "$1" || echo "$USER")
 # NOTE: I tested this thing and the script should not run twice anymore.
 # But if it still do then this is the culprit
 if [ "$EUID" -ne 0 ]; then
-    stow . --no-folding
+    # you will need to discard all changes with git if you want to use all of the repo components
+    stow . --no-folding --adopt
 
     sudo "$0" "$u" "$@"
     exit $?
@@ -26,9 +27,42 @@ if [ -z "$CUSTOM_BIN" ]; then
     export CUSTOM_BIN=/home/$u/.local/bin
 fi
 
+mkdir -p $CUSTOM_BIN
+
 set -euo pipefail
 
-mkdir -p $CUSTOM_BIN
+make_zsh_default() {
+    chsh -s $(which zsh) $u
+}
+
+arch_primary_install() {
+    pacman -Syy --noconfirm --needed ufw reflector grub-btrfs inotify-tools \
+        stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
+        exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
+        fastfetch vnstat nethogs cryfs
+
+    # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
+    pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv kalk kamoso krecorder \
+        spectacle btrfs-assistant
+
+    systemctl enable --now ufw grub-btrfsd vnstat
+}
+
+arch_add_reflector() {
+    bash -c 'echo "--country SG" >> /etc/xdg/reflector/reflector.conf'
+    sed -i 's/^--latest.*/--latest 10/' "/etc/xdg/reflector/reflector.conf"
+    systemctl enable --now reflector.service reflector.timer
+}
+
+arch_add_chaotic_aur() {
+    pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+    pacman-key --lsign-key 3056513887B78AEB
+    pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
+    bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+    pacman -Sy --noconfirm --needed paru octopi
+}
 
 echo "initializing basic components..."
 
@@ -46,62 +80,39 @@ amd64_install() {
 }
 
 export DISTRO_ID=$([ -d "/data/data/com.termux" ] && echo "termux" ||
-    echo $(grep '^ID' /etc/os-release | cut -d '=' -f2))
+    echo $(grep '^ID=' /etc/os-release | cut -d '=' -f2))
 
 case "$DISTRO_ID" in
 termux)
     pkg install vim stow unzip grep fzf lf
     ;;
+
 arch)
-    # basic requirement is that you've already installed git (and flatpak, if you want to
-    # install GUI softwares) beforehand
-    pacman -S --noconfirm --needed ufw reflector grub-btrfs inotify-tools
-    systemctl enable --now ufw grub-btrfsd 
-
-    bash -c 'echo "--country SG" >> /etc/xdg/reflector/reflector.conf'
-    sed -i 's/^--latest.*/--latest 10/' "/etc/xdg/reflector/reflector.conf"
-    systemctl enable --now reflector.service reflector.timer
-
-    pacman -S --noconfirm --needed stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
-        exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
-        fastfetch vnstat nethogs cryfs
-
-    # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
-    pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv kalk kamoso krecorder \
-        spectacle
-
-    systemctl enable --now vnstat
-    chsh -s $(which zsh) $u
-
-    # more convenient to update, indeed
-    pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-    pacman-key --lsign-key 3056513887B78AEB
-    pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-    pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-
-    bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
-    pacman -S --noconfirm --needed paru octopi
-
-    # daily update the repo so octopi is properly functional
-
-    serviceaddr=/lib/systemd/system/pacman-daily-update
-
+    arch_primary_install
+    arch_add_chaotic_aur
+    arch_add_reflector
+    make_zsh_default
     ;;
 
+cachyos)
+    arch_primary_install
+    arch_add_chaotic_aur
+    make_zsh_default
+
+    ;;
 fedora)
     dnf install -y vim zoxide btop wl-clipboard zsh fastfetch vnstat nethogs gnome-disk-utility \
         mpv trash-cli python3-shtab
 
     systemctl enable --now vnstat
-    chsh -s $(which zsh) $u
 
+    make_zsh_default
     amd64_install
     ;;
 
 ubuntu)
     apt install stow vim zoxide
     amd64_install
-
     ;;
 
 linuxmint)
@@ -111,6 +122,7 @@ linuxmint)
 
     amd64_install
     ;;
+
 esac
 
 # source ~/.bashrc

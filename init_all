@@ -11,7 +11,56 @@ amd64_install() {
     echo "no additional softwares for x86_64"
 }
 
+arch_main_install() {
+    pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq \
+        git-delta lazygit
+
+    pacman -S --noconfirm --needed kolourpaint \
+        libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
+        kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
+        xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
+        kcharselect quodlibet
+
+    amd64_install
+
+    sed -i 's/^#Color.*/Color/' "/etc/pacman.conf"
+
+    # this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
+    # using KDE font settings, etc.
+    if ! grep GTK_USE_PORTAL /etc/environment &> /dev/null; then 
+        bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
+    fi
+
+    if ! grep GSK_RENDERER /etc/environment; then 
+        # GTK has rendering problem in low-end computers as it uses Vulkan now
+        read -p "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)
+        You can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.
+        Answer (y/N): " glopt
+
+        if [[ $glopt == y ]]; then
+            bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
+        fi
+    fi
+
+    # for kde connect
+    ufw allow 1716:1764/udp
+    ufw allow 1716:1764/tcp
+
+    # for timeshift scheduler. I'm commenting it out for now as for some reason snapshots created by
+    # the scheduler is corrupt and it once broke my system
+    # UPDATE: let's try whether installing grub-btrfs will change this
+    systemctl enable --now cronie
+
+    sed -i 's/^ExecStart.*/ExecStart=\/usr\/bin\/grub-btrfsd --syslog -t/' \
+        "/etc/systemd/system/grub-btrfsd.service"
+}
+
 flatpak_basic() {
+    if ! command -v flatpak &> /dev/null; then 
+        echo "please install flatpak first then re-log in"
+        return
+    fi
+
     flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse \
         com.github.tchx84.Flatseal org.localsend.localsend_app \
         org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
@@ -22,10 +71,12 @@ flatpak_basic() {
     # integrates well with the system-settings.
 }
 
-read -p 'do you want to install oh-my-posh (for shell customization)? (y/N)' answer
+if ! command -v oh-my-posh &> /dev/null; then 
+    read -p 'do you want to install oh-my-posh (for shell customization)? (y/N)' answer
 
-if [[ $answer == y ]]; then
-    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
+    if [[ $answer == y ]]; then
+        curl -s https://ohmyposh.dev/install.sh | bash -s -- -d $CUSTOM_BIN
+    fi
 fi
 
 case "$DISTRO_ID" in
@@ -34,41 +85,12 @@ termux)
     ;;
 
 arch)
-    pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq git-delta lazygit
+    arch_main_install
+    flatpak_basic
+    ;;
 
-    amd64_install
-
-    sed -i 's/^#Color.*/Color/' "/etc/pacman.conf"
-
-    # this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
-    # using KDE font settings, etc.
-    bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
-
-    # GTK has rendering problem in low-end computers as it uses Vulkan now
-    read -p "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)
-    You can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.
-    Answer (y/N): " glopt
-
-    if [[ $glopt == y ]]; then
-        bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
-    fi
-
-    pacman -S --noconfirm --needed timeshift firefox-developer-edition kolourpaint \
-        libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
-        kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
-        xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
-        kcharselect qmmp
-
-    # for kde connect
-    ufw allow 1716:1764/udp
-    ufw allow 1716:1764/tcp
-
-    # for timeshift scheduler. I'm commenting it out for now as for some reason snapshots created by
-    # the scheduler is corrupt and it once broke my system
-    # UPDATE: let's try whether installing grub-btrfs will change this
-    systemctl enable --now cronie
-    sed -i 's/^ExecStart.*/ExecStart=\/usr\/bin\/grub-btrfsd --syslog -t/' "/etc/systemd/system/grub-btrfsd.service"
-
+cachyos)
+    arch_main_install
     flatpak_basic
     ;;
 
@@ -90,11 +112,14 @@ ubuntu)
     amd64_install
 
     # lazygit
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" \
+        | grep -Po '"tag_name": "v\K[^"]*')
+
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
     install lazygit $CUSTOM_BIN
     ;;
+
 linuxmint) ;;
 
 esac
