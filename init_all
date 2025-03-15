@@ -61,9 +61,8 @@ flatpak_basic() {
         return
     fi
 
-    flatpak install com.github.ryonakano.pinit io.github.flattool.Warehouse \
-        com.github.tchx84.Flatseal org.localsend.localsend_app \
-        org.freefilesync.FreeFileSync ca.desrt.dconf-editor -y
+    flatpak install -y io.github.flattool.Warehouse com.github.tchx84.Flatseal \
+        org.localsend.localsend_app org.freefilesync.FreeFileSync ca.desrt.dconf-editor
 
     # NOTE: installing both flatpak-kcm and flatseal seems redundant,
     # but currently you can't set global setting for apps in flatpak-kcm.
