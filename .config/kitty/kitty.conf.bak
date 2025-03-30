@@ -1,11 +1,11 @@
 # font_family JetBrainsMono Nerd Font Mono
-font_size 14.0
+font_size 14.5
 background_opacity 0.75
+scrollback_pager bat
 scrollback_pager_history_size 1
 
 # - if you want to start kitty as maximized, use "kitty --start-as maximized" in the shortcut definition
 # - change theme by running kitten themes
-
 
 # BEGIN_KITTY_THEME
 # Nord
@@ -13,14 +13,27 @@ include current-theme.conf
 # END_KITTY_THEME
 
 background #000000
+tab_bar_style powerline
 
 # color7  #e5e9f0
 # color15 #eceff4
 
 
 # BEGIN_KITTY_FONTS
-font_family      family="Hack"
+font_family      family="HackGen Console"
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
 # END_KITTY_FONTS
+
+map ctrl+shift+left none
+map ctrl+shift+right none
+map ctrl+shift+, previous_tab
+map ctrl+shift+. next_tab
+map ctrl+shift+[  move_tab_backward
+map ctrl+shift+]  move_tab_forward
+map ctrl+shift+j previous_window
+map ctrl+shift+k next_window
+
+
+

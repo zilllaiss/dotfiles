@@ -1,1 +1,21 @@
-theme = "tokyonight"
+theme = "zl"
+
+[editor]
+bufferline = "always"
+end-of-line-diagnostics = "hint"
+
+[editor.cursor-shape]
+insert = "bar"
+select = "underline"
+
+[editor.lsp]
+display-progress-messages = true
+
+[editor.soft-wrap]
+enable = true
+wrap-at-text-width = true
+
+[keys.normal]
+space.x = ":bc"
+"A-[" = ":buffer-previous"
+"A-]" = ":buffer-next"

@@ -1,4 +1,11 @@
-export EDITOR=vim
+export EDITOR=nano
+
+if command -v helix &> /dev/null; then
+	export EDITOR=helix
+elif command -v vim &> /dev/null; then
+	export EDITOR=vim
+fi
+
 export LF_BOOKMARK_PATH=~/.cache/lf/bookmarks
 if [ ! -d $LF_BOOKMARK_PATH ]; then
 	mkdir -p $LF_BOOKMARK_PATH
@@ -25,9 +32,9 @@ alias zlf="~/zlf.sh"
 alias q=exit
 alias yz=yazi
 alias cl=clear
-alias brc="vim ~/.bashrc"
-alias zrc="vim ~/.zshrc"
-alias zlrc="vim ~/.zl_profile"
+alias brc="$EDITOR ~/.bashrc"
+alias zrc="$EDITOR ~/.zshrc"
+alias zlrc="$EDITOR ~/.zl_profile"
 alias termmode="sudo systemctl isolate multi-user.target"
 alias graphmode="sudo systemctl isolate graphical.target"
 alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
