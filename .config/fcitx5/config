@@ -7,11 +7,13 @@ EnumerateForwardKeys=
 EnumerateBackwardKeys=
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
+# Time limit in milliseconds for triggering modifier key shortcuts
+ModifierOnlyKeyTimeout=250
 
 [Hotkey/TriggerKeys]
 0=Zenkaku_Hankaku
 1=Hangul
-2=Super+space
+2=Control+space
 
 [Hotkey/AltTriggerKeys]
 0=Shift_L
