@@ -2,11 +2,18 @@ theme = "zl"
 
 [editor]
 bufferline = "always"
-end-of-line-diagnostics = "hint"
+#end-of-line-diagnostics = "hint"
+line-number = "relative"
+text-width = 100
 
 [editor.cursor-shape]
 insert = "bar"
 select = "underline"
+
+[editor.file-picker]
+hidden = false
+git-ignore = false
+git-global = false
 
 [editor.lsp]
 display-progress-messages = true
@@ -19,3 +26,4 @@ wrap-at-text-width = true
 space.x = ":bc"
 "A-[" = ":buffer-previous"
 "A-]" = ":buffer-next"
+space.z.f = ":format"
