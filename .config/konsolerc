@@ -7,6 +7,7 @@ DefaultProfile=ZL.profile
 ConfigVersion=1
 
 [MainWindow]
+MenuBar=Disabled
 ToolBarsMovable=Enabled
 
 [MainWindow][Toolbar mainToolBar]
@@ -15,6 +16,9 @@ ToolButtonStyle=IconOnly
 [MainWindow][Toolbar sessionToolbar]
 IconSize=16
 ToolButtonStyle=IconOnly
+
+[SaveHistory Settings]
+Recent URLs[$e]=file:$HOME/Desktop
 
 [Toolbar mainToolBar]
 ToolButtonStyle=IconOnly
