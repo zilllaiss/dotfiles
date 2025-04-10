@@ -1,8 +1,7 @@
 export EDITOR=nano
 
-if command -v helix &> /dev/null; then
-	export EDITOR=helix
-elif command -v vim &> /dev/null; then
+
+if command -v vim &> /dev/null; then
 	export EDITOR=vim
 fi
 
