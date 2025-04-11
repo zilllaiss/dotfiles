@@ -1,14 +1,8 @@
 set -gx EDITOR vim
 
 set -gx CUSTOM_BIN ~/.local/bin
-
-set -gx PATH $PATH:~/go/bin
-set -gx PATH $PATH:/usr/local/go/bin
-set -gx PATH $PATH:~/.bun/bin
-set -gx PATH $PATH:$CUSTOM_BIN
-set -gx PATH $PATH:$CUSTOM_BIN/paru
-set -gx PATH $PATH:~/bin/nvim/bin
-set -gx PATH $PATH:~/zig
+set -gx CUSTOM_PATH ~/go/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/bin/nvim/bin ~/zig
+set -gx PATH "$PATH:$CUSTOM_PATH"
 
 zoxide init --cmd cd fish | source
 
@@ -20,6 +14,7 @@ alias zlf="~/zlf.sh"
 alias q=exit
 alias yz=yazi
 alias cl=clear
+alias frc="$EDITOR ~/.config/fish/config.fish"
 alias brc="$EDITOR ~/.bashrc"
 alias zrc="$EDITOR ~/.zshrc"
 alias zlrc="$EDITOR ~/.zl_profile"
