@@ -3,6 +3,7 @@ set -gx EDITOR vim
 set -gx CUSTOM_BIN ~/.local/bin
 set -gx CUSTOM_PATH ~/go/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/bin/nvim/bin ~/zig
 set -gx PATH "$PATH:$CUSTOM_PATH"
+set -gx GO_TASK_PROGNAME go-task
 
 zoxide init --cmd cd fish | source
 
@@ -127,3 +128,9 @@ function stop
 	sleep $2 && kill $(pgrep $1)
 end
 
+if command -v lsd &> /dev/null
+	alias ls=lsd
+	alias lsa="lsd -Al"
+	alias lst="lsd -Alt"
+	alias lss="lsd -AlS"
+end
