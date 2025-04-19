@@ -10,7 +10,8 @@ local servers = {
   "gopls",
   "emmet_language_server",
   "html",
-  -- "zls",
+  "zls",
+  "yamlls",
   -- "tailwindcss",
 }
 
@@ -37,3 +38,18 @@ vim.lsp.config("gopls", {
   },
 })
 
+vim.lsp.config("yamlls", {
+  cmd = { "yaml-language-server", "--stdio" },
+  filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab" },
+  root_markers = { ".git" },
+
+  settings = {
+    -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
+    redhat = { telemetry = { enabled = false } },
+    yaml = {
+      schemas = {
+        ["https://taskfile.dev/schema.json"] = { "**/Taskfile.yml" },
+      },
+    },
+  },
+})
