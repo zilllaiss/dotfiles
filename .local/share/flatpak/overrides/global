@@ -1,2 +1,6 @@
 [Context]
 filesystems=~/.themes:ro;~/.icons:ro;~/.local/icons:ro
+
+[Environment]
+GSK_RENDERER=gl
+GTK_USE_PORTAL=1
