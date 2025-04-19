@@ -1,3 +1,8 @@
+source ~/dotfiles/.config/fish/cachyos-config.fish 
+
+function fish_greeting
+end
+
 set -gx EDITOR vim
 
 set -gx CUSTOM_BIN ~/.local/bin
