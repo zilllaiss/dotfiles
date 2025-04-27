@@ -12,7 +12,7 @@ local servers = {
   "html",
   "zls",
   "yamlls",
-  -- "tailwindcss",
+  "tailwindcss",
 }
 
 vim.lsp.enable(servers)
@@ -52,4 +52,10 @@ vim.lsp.config("yamlls", {
       },
     },
   },
+})
+
+-- do lspconfig have manual launch config?
+vim.lsp.config("tailwindcss", {
+  filetypes = { "css" },
+  root_markers = { ".git" },
 })

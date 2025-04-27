@@ -32,6 +32,10 @@ if command -v go-task &> /dev/null
 	alias task=go-task
 end
 
+if test -f ~/.zl_profile.fish
+ 	source ~/.zl_profile.fish
+end
+
 # kitty-specific
 alias icat="kitty +kitten icat"
 
@@ -134,3 +138,4 @@ if command -v lsd &> /dev/null
 	alias lst="lsd -Alt"
 	alias lss="lsd -AlS"
 end
+

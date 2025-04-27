@@ -25,7 +25,7 @@ map({"n", "i"}, "<M-[>", function()
 end, { desc = "buffer goto prev" })
 
 map("n", "<leader>zk", "<cmd>NvCheatsheet<CR>")
-map("n", "<leader>zl", "<cmd>LspRestart<CR>", { desc = "Restart your junky LSP" })
+map("n", "<leader>zl", "<cmd>LspRestart<CR>", { desc = "Restart your janky LSP" })
 map("i", "jk", "<ESC>")
 map("i", "<tab>", "    ", { noremap = true, silent = true })
 map("n", "<leader>tr", function()
@@ -38,3 +38,9 @@ map("n", "<leader>tt", "<cmd>TodoTelescope<CR>", { desc = "Search todos with Tel
 
 map("n", "<leader>zts", "<cmd>LspStop tailwindcss<CR>", {desc = "Stop your janky tailwindcss LSP"})
 map("n", "<leader>ztp", "<cmd>LspStart tailwindcss<CR>", {desc = "Start your janky tailwindcss LSP and make your editor slow"})
+
+local telescope = require('telescope.builtin')
+
+map("n", "<leader>f'", function ()
+    telescope.marks{}
+end, { desc = "search vim marks" })
