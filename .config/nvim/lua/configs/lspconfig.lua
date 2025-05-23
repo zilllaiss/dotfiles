@@ -59,3 +59,11 @@ vim.lsp.config("tailwindcss", {
   filetypes = { "css" },
   root_markers = { ".git" },
 })
+
+vim.lsp.config("zls", {
+  settings = {
+    zls = {
+      enable_argument_placeholders = false,
+    },
+  },
+})
