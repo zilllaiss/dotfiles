@@ -4,6 +4,7 @@ set -gx CUSTOM_BIN ~/.local/bin
 set -gx CUSTOM_PATH ~/go/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/bin/nvim/bin ~/zig
 set -gx PATH "$PATH:$CUSTOM_PATH"
 set -gx GO_TASK_PROGNAME go-task
+set -gx PAGER "bat"
 
 zoxide init --cmd cd fish | source
 
@@ -139,3 +140,6 @@ if command -v lsd &> /dev/null
 	alias lss="lsd -AlS"
 end
 
+function manv
+	$argv | vim +MANPAGER -
+end

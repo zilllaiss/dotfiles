@@ -3,3 +3,6 @@
 bin
 tmp
 temp
+zig_cache
+zig_out
+node_modules

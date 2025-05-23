@@ -4,7 +4,7 @@ return {
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
-
+  { import = "nvchad.blink.lazyspec" },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {

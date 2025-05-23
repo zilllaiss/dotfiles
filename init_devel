@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
+
+export DISTRO_ID=$([ -d "/data/data/com.termux" ] && echo "termux" ||
+    echo $(source /etc/os-release && echo $ID))
+
 set -euo pipefail
 
 echo "initializing all development environment..."
-DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
-
-if [ -d "/data/data/com.termux" ]; then
-    DISTRO_ID=termux
-else
-    DISTRO_ID=$(grep '^ID=' /etc/os-release | cut -d '=' -f2)
-fi
 
 echo $DISTRO_ID
 
@@ -20,19 +17,28 @@ echo $DISTRO_ID
 case "$DISTRO_ID" in
 arch)
     sudo pacman -S go go-task nodejs npm postgresql --noconfirm --needed
-    go install github.com/a-h/templ/cmd/templ@latest
 
     paru -S --needed vscodium-bin
     ;;
 cachyos)
     sudo pacman -S go go-task nodejs npm postgresql --noconfirm --needed
-    go install github.com/a-h/templ/cmd/templ@latest
 
     paru -S --needed vscodium-bin
     ;;
+
 termux)
     pkg install go postgresql memcached
     ;;
+
+alpine)
+    doas apk go postgresql memcached 
+
+    doas rc-update add postgresql
+    doas r-update add memcached
+    doas rc-service postgresql start
+    doas rc-service memcached start
+    ;;
+
 esac
 
 echo "successfully initializing development environment"

@@ -17,6 +17,9 @@ ToolButtonStyle=IconOnly
 IconSize=16
 ToolButtonStyle=IconOnly
 
+[Notification Messages]
+CloseAllEmptyTabs=true
+
 [SaveHistory Settings]
 Recent URLs[$e]=file:$HOME/Desktop
 
