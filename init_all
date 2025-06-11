@@ -12,7 +12,7 @@ amd64_install() {
 }
 
 arch_main_install() {
-    pacman -S --noconfirm --needed lsd kitty trash-cli python-shtab neovim fd ripgrep jq \
+    pacman -S --noconfirm --needed lsd trash-cli python-shtab neovim fd ripgrep jq \
         git-delta lazygit
 
     pacman -S --noconfirm --needed kolourpaint \
