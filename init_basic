@@ -46,7 +46,7 @@ arch_primary_install() {
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
     pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv kalk kamoso krecorder \
-        spectacle btrfs-assistant
+        spectacle btrfs-assistant kimageformats
 
     systemctl enable --now ufw grub-btrfsd vnstat
     ufw default deny

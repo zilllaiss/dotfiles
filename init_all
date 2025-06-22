@@ -19,7 +19,7 @@ arch_main_install() {
         libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
         kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
         xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
-        kcharselect quodlibet
+        kcharselect quodlibet plasma-workspace-wallpapers
 
     amd64_install
 

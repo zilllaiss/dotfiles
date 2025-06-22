@@ -105,7 +105,7 @@ return {
     opts = require "configs.markdown",
   },
   {
-    -- support TODO, FIX, PERF, NOTE, FIX, WARNING
+    -- support TODO, FIX, PERF, NOTE, FIX, WARNING, BUG
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
@@ -115,5 +115,16 @@ return {
     "karb94/neoscroll.nvim",
     opts = { duration_multiplier = 0.5 },
     lazy = false,
+  },
+  {
+    -- NOTE: you can delete tag with vim-surround (dst)
+    "windwp/nvim-ts-autotag",
+    lazy = false,
+    opts = {
+      -- -- Defaults
+      -- enable_close = true, -- Auto close tags
+      -- enable_rename = true, -- Auto rename pairs of tags
+      -- enable_close_on_slash = false, -- Auto close on trailing </
+    },
   },
 }
