@@ -8,13 +8,10 @@ set -gx PAGER "bat"
 
 zoxide init --cmd cd fish | source
 
-alias v=vim
-alias ve="vim -y" # working with (natural) languages with non-ascii characters like JP & AR is a nightmare in vim 
-alias nv=nvim
-alias hx=helix
+alias vime="vim -y" # working with (natural) languages with non-ascii characters like JP & AR is a nightmare in vim 
+alias nano="nano --modernbindings"
 alias zlf="~/zlf.sh"
 alias q=exit
-alias yz=yazi
 alias cl=clear
 alias frc="$EDITOR ~/.config/fish/config.fish"
 alias brc="$EDITOR ~/.bashrc"
@@ -73,15 +70,21 @@ function cpr
 	rsync --archive -v --chown=$USER:$USER $argv[1] $argv[2] 
 end
 
-function list
-    switch ($argv[1])
-    case size
-		lsd -arlS
-    case time
-        lsd -arlt
-	case '*'
-		lsd -al
+if command -v eza &> /dev/null 
+	set ex eza
+else if command -v lsd &> /dev/null
+	set ex lsd
+end
+
+if ! test -z $ex
+	if string match $ex eza &> /dev/null 
+		set extra " modified"
 	end
+
+	alias ls="$ex --icons always --group-directories-first"
+	alias lsa="ls -al"
+	alias lst="ls -al -t$extra"
+	alias lss="ls -alS"
 end
 
 if command -v yazi &> /dev/null
@@ -130,14 +133,7 @@ function fif
 end
 
 function stop 
-	sleep $2 && kill $(pgrep $1)
-end
-
-if command -v lsd &> /dev/null
-	alias ls=lsd
-	alias lsa="lsd -Al"
-	alias lst="lsd -Alt"
-	alias lss="lsd -AlS"
+	sleep $argv[2] && kill $(pgrep $argv[1])
 end
 
 function manv

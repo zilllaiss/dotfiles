@@ -12,14 +12,14 @@ amd64_install() {
 }
 
 arch_main_install() {
-    pacman -S --noconfirm --needed lsd trash-cli python-shtab neovim fd ripgrep jq \
+    pacman -S --noconfirm --needed eza trash-cli python-shtab neovim fd ripgrep jq \
         git-delta lazygit
 
     pacman -S --noconfirm --needed kolourpaint \
         libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
         kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
         xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
-        kcharselect quodlibet plasma-workspace-wallpapers
+        kcharselect quodlibet plasma-workspace-wallpapers bleachbit
 
     amd64_install
 
@@ -80,7 +80,7 @@ fi
 
 case "$DISTRO_ID" in
 termux)
-    pkg install lsd jq lazygit neovim oh-my-posh git-delta
+    pkg install eza jq lazygit neovim oh-my-posh git-delta
     ;;
 
 arch)
@@ -95,7 +95,7 @@ cachyos)
 
 fedora)
     dnf copr enable atim/lazygit -y
-    dnf install -y lsd jq lazygit neovim git-delta keepassxc timeshift kalk kclock krecorder \
+    dnf install -y eza jq lazygit neovim git-delta keepassxc timeshift kalk kclock krecorder \
         kcron kweather qmmp
 
     read -p "do you want to uninstall some redundant apps? [y/N]" remren
@@ -107,7 +107,7 @@ fedora)
     ;;
 
 ubuntu)
-    apt install lsd jq trash-cli neovim
+    apt install eza jq trash-cli neovim
     amd64_install
 
     # lazygit

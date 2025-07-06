@@ -1,5 +1,6 @@
 require("nvchad.configs.lspconfig").defaults()
 
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 local servers = {
   "ts_ls",
   "cssls",
