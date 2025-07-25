@@ -1,5 +1,27 @@
 #!/usr/bin/env bash
 
+# https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
+get_script_dir() {
+    local SOURCE_PATH="${BASH_SOURCE[0]}"
+    local SYMLINK_DIR
+    local SCRIPT_DIR
+    # Resolve symlinks recursively
+    while [ -L "$SOURCE_PATH" ]; do
+        # Get symlink directory
+        SYMLINK_DIR="$( cd -P "$( dirname "$SOURCE_PATH" )" >/dev/null 2>&1 && pwd )"
+        # Resolve symlink target (relative or absolute)
+        SOURCE_PATH="$(readlink "$SOURCE_PATH")"
+        # Check if candidate path is relative or absolute
+        if [[ $SOURCE_PATH != /* ]]; then
+            # Candidate path is relative, resolve to full path
+            SOURCE_PATH=$SYMLINK_DIR/$SOURCE_PATH
+        fi
+    done
+    # Get final script directory path from fully resolved source path
+    SCRIPT_DIR="$(cd -P "$( dirname "$SOURCE_PATH" )" >/dev/null 2>&1 && pwd)"
+    echo "$SCRIPT_DIR"
+}
+
 export u=$([ -n "$1" ] && echo "$1" || echo "$USER")
 
 DISTRO_ID=
@@ -11,7 +33,11 @@ export DISTRO_ID=$([ -d "/data/data/com.termux" ] && echo "termux" ||
 # But if it still do then this is the culprit
 if [ "$EUID" -ne 0 ]; then
     # you will need to discard all changes with git if you want to use all of the repo components
-    stow . --no-folding --adopt
+    dir_path="$(get_script_dir)"
+
+    echo "dir path: $dir_path"
+
+    stow --no-folding --adopt -v -t $HOME -d "$dir_path" .
 
     sudo "$0" "$u" "$@"
     exit $?
@@ -23,8 +49,13 @@ if [ -f ../.bashrc ]; then
     mv ../.bashrc ../.bashrc.bak
 fi
 
-echo "Reminder: dont run manually with sudo as it will cause unexpected behavior, 
-and this script prompt you for your password already."
+read -p "Reminder: dont run manually with sudo as it will cause unexpected behavior, 
+Are you sure want to continue? [y/N]: " cont
+
+if [[ $cont != "y" ]]; then 
+    echo 'operation aborted'
+    exit 1
+fi
 
 if [ -z "$CUSTOM_BIN" ]; then
     export CUSTOM_BIN=/home/$u/.local/bin

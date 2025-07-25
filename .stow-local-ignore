@@ -2,3 +2,6 @@
 .gitignore
 .directory
 opts
+init_all
+init_basic
+init_devel
