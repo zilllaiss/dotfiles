@@ -20,4 +20,5 @@
         "templ": "html"
     },
     "zig.zls.enableArgumentPlaceholders": false,
+    "liveServer.settings.donotShowInfoMsg": true,
 }

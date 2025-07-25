@@ -1,7 +1,8 @@
-set -gx EDITOR vim
+set -g fish_key_bindings fish_vi_key_bindings
 
+set -gx EDITOR vim
 set -gx CUSTOM_BIN ~/.local/bin
-set -gx CUSTOM_PATH ~/go/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/bin/nvim/bin ~/zig
+set -gx CUSTOM_PATH ~/go/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/bin/nvim/bin ~/zig ~/.local/share/nvim/mason/bin
 set -gx PATH "$PATH:$CUSTOM_PATH"
 set -gx GO_TASK_PROGNAME go-task
 set -gx PAGER "bat"
@@ -138,4 +139,29 @@ end
 
 function manv
 	$argv | vim +MANPAGER -
+end
+
+function rn
+	if test $(count $argv) -lt 1 
+		echo "you must specify the filename"
+		return 1
+	end
+
+	if ! test -f $argv[1]
+		echo "no file like that"
+		return 1
+	end
+
+	echo "renaming file $argv[1]"
+
+	set -l splitted $(string split '.' $argv[1])
+	set -l sp_length $(count $splitted)
+	set -l ext $splitted[$sp_length]
+
+	echo "extension is .$ext"
+
+	set -l new_name $(randstring).$ext
+	mv $argv[1] $new_name
+
+	echo "file renamed to $new_name"
 end
