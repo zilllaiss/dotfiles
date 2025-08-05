@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-DISTRO_ID=$(grep '^ID' /etc/os-release | cut -d '=' -f2)
+source /etc/os-release 
+DISTRO_ID=$ID
 
 set -euo pipefail
 
 input=('fcitx5' 'fcitx5-mozc' 'fcitx5-configtool')
 graphics=('krita' 'kdenlive' 'inkscape' 'gimp')
-gaming=('steam' 'wine' 'winetricks' 'wine-mono' 'wine-gecko' 'kdialog')
+# 'wine' 'winetricks' 'wine-mono' 'winezabbix-gecko' 'kdialog'
+gaming=('steam')
 util=('optiimage' 'gsmartcontrol' 'gnome-boxes' 'qbittorrent')
 
 # available in chaotic-aur:
@@ -14,13 +16,13 @@ util=('optiimage' 'gsmartcontrol' 'gnome-boxes' 'qbittorrent')
 
 arch_install () {
     sudo pacman -S --noconfirm --needed ${input[*]} ${util[*]} ${graphics[*]} ${gaming[*]} \
-	nextcloud-client anki 
+	nextcloud-client anki ab-download-manager tenacity
 
     paru -S google-earth-pro
 }
 
 flatpak_install () {
-    flatpak install -y com.rafaelmardojai.Blanket io.github.alainm23.planify \
+    flatpak install -y com.rafaelmardojai.Blanket \
 	io.github.diegoivanme.flowtime md.obsidian.Obsidian me.hyliu.fluentreader \
 	com.obsproject.Studio io.github.ungoogled_software.ungoogled_chromium
 
@@ -28,7 +30,7 @@ flatpak_install () {
 }
 
 case "$DISTRO_ID" in
-'cachyos arch')
+'cachyos')
 	arch_install
     flatpak_install
     ;;

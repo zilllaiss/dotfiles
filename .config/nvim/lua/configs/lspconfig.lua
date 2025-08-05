@@ -5,7 +5,7 @@ local servers = {
   "ts_ls",
   "cssls",
   "basedpyright",
-  "svelte",
+  -- "svelte",
   "templ",
   "bashls",
   "gopls",
@@ -13,6 +13,7 @@ local servers = {
   "html",
   "zls",
   "yamlls",
+  "rust_analyzer",
   -- "tailwindcss",
 }
 
@@ -66,5 +67,11 @@ vim.lsp.config("zls", {
     zls = {
       enable_argument_placeholders = false,
     },
+  },
+})
+
+vim.lsp.config("rust_analyzer", {
+  settings = {
+    ["rust-analyzer"] = {},
   },
 })

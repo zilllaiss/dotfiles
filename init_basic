@@ -70,14 +70,14 @@ make_zsh_default() {
 }
 
 arch_primary_install() {
-    pacman -Syy --noconfirm --needed ufw reflector grub-btrfs inotify-tools \
-        stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
+    pacman -Syy --noconfirm --needed --disable-download-timeout ufw reflector grub-btrfs \
+        inotify-tools stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
         exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
-        fastfetch vnstat nethogs cryfs fwupd kio-admin
+        fastfetch vnstat nethogs cryfs fwupd kio-admin ttf-ms-fonts
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
-    pacman -S --noconfirm --needed gnome-disk-utility gwenview okular mpv kalk kamoso krecorder \
-        spectacle btrfs-assistant kimageformats
+    pacman -S --noconfirm --needed --disable-download-timeout gnome-disk-utility gwenview okular \
+        mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats
 
     systemctl enable --now ufw grub-btrfsd vnstat
     ufw default deny
@@ -96,7 +96,7 @@ arch_add_chaotic_aur() {
     pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
     bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
-    pacman -Sy --noconfirm --needed paru octopi
+    pacman -Sy --noconfirm --needed --disable-download-timeout paru octopi
 }
 
 echo "initializing basic components..."

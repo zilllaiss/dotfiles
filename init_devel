@@ -16,12 +16,12 @@ echo $DISTRO_ID
 #
 case "$DISTRO_ID" in
 arch)
-    sudo pacman -S go go-task nodejs npm postgresql --noconfirm --needed
+    sudo pacman -S go nodejs npm postgresql --noconfirm --needed
 
     paru -S --needed vscodium-bin
     ;;
 cachyos)
-    sudo pacman -S go go-task nodejs npm postgresql --noconfirm --needed
+    sudo pacman -S go nodejs npm postgresql --noconfirm --needed
 
     paru -S --needed vscodium-bin
     ;;

@@ -12,14 +12,15 @@ amd64_install() {
 }
 
 arch_main_install() {
-    pacman -S --noconfirm --needed eza trash-cli python-shtab neovim fd ripgrep jq \
-        git-delta lazygit
+    pacman -S --noconfirm --needed --disable-download-timeout eza trash-cli python-shtab neovim \
+        fd ripgrep jq git-delta lazygit bat
 
-    pacman -S --noconfirm --needed kolourpaint \
+    pacman -S --noconfirm --needed --disable-download-timeout kolourpaint \
         libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
         kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
         xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
-        kcharselect quodlibet plasma-workspace-wallpapers bleachbit
+        kcharselect quodlibet plasma-workspace-wallpapers bleachbit ttf-jetbrains-mono \
+		ttf-jetbrains-mono-nerd  
 
     amd64_install
 
