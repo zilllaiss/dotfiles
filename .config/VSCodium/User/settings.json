@@ -21,4 +21,5 @@
     },
     "zig.zls.enableArgumentPlaceholders": false,
     "liveServer.settings.donotShowInfoMsg": true,
+    "basedpyright.analysis.diagnosticSeverityOverrides": {},
 }

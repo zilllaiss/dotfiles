@@ -4,7 +4,6 @@ local options = {
     go = { "goimports", "gofumpt" },
     -- templ formatter is really janky
     templ = { lsp_format = "never" },
-    python = { "isort", "black" },
     javascript = { "prettier" },
     sh = { "shfmt" },
     -- visit https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters to see all formatters
