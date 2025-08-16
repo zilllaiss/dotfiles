@@ -1,3 +1,6 @@
+#### INITS ####
+
+
 set -g fish_key_bindings fish_vi_key_bindings
 
 set -gx EDITOR vim
@@ -6,26 +9,19 @@ set -gx CUSTOM_PATH ~/go/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BI
 set -gx PATH "$PATH:$CUSTOM_PATH"
 set -gx GO_TASK_PROGNAME go-task
 set -gx PAGER "bat"
+set -gx WWW_HOME "www.duckduckgo.com"
 
 zoxide init --cmd cd fish | source
 
-alias vime="vim -y" # working with (natural) languages with non-ascii characters like JP & AR is a nightmare in vim 
-alias nano="nano --modernbindings"
-alias zlf="~/zlf.sh"
-alias q=exit
-alias cl=clear
-alias frc="$EDITOR ~/.config/fish/config.fish"
-alias brc="$EDITOR ~/.bashrc"
-alias zrc="$EDITOR ~/.zshrc"
-alias zlrc="$EDITOR ~/.zl_profile"
-alias termmode="sudo systemctl isolate multi-user.target"
-alias graphmode="sudo systemctl isolate graphical.target"
-alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+
+#### COMMAND OVERRIDES ####
+
+
 alias code=codium
-alias grep="grep --color=always"
-alias stow="stow --no-folding"
-alias lg=lazygit
-alias wrk=go-wrk
+
+if command -v go-wek &> /dev/null 
+	alias wrk=go-wrk
+end
 
 if command -v go-task &> /dev/null
 	alias task=go-task
@@ -35,16 +31,10 @@ if test -f ~/.zl_profile.fish
  	source ~/.zl_profile.fish
 end
 
-# kitty-specific
-alias icat="kitty +kitten icat"
-
 if command -v bat &> /dev/null
 	# additionally, you might want to edit /etc/pacman.conf if you use Arch (btw) to enable paru color support
 	alias cat="bat --paging never"
 end
-
-# other variable exports
-set -gx WWW_HOME "www.duckduckgo.com"
 
 if command -v trash &> /dev/null
 	alias rm=trash
@@ -53,6 +43,46 @@ if command -v trash &> /dev/null
 	alias rmres=trash-restore
 	alias rmr=trash-rm
 end
+
+if command -v yazi &> /dev/null
+	alias lf=yazi
+end
+
+if command -v eza &> /dev/null 
+	set ex eza
+	set icon_flag '--icons'
+else if command -v lsd &> /dev/null
+	set ex lsd 
+	set icon_flag '--icon'
+end
+
+if ! test -z $ex
+	if string match $ex eza &> /dev/null 
+		set -l extra " modified"
+	end
+
+	alias ls="$ex $icon_flag always --group-directories-first"
+	alias lsa="ls -al"
+	alias lst="ls -al -t$extra"
+	alias lss="ls -alS"
+end
+
+if command -v fd &> /dev/null 
+	alias find=fd
+end
+
+if command -v rg &> /dev/null
+	alias grep=rg
+else
+	alias grep="grep --color=always"
+end
+
+
+#### COMMAND CONFIGS ####
+
+
+alias nano="nano --modernbindings"
+alias stow="stow --no-folding"
 
 # export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
 set -gx FZF_DEFAULT_OPT "
@@ -63,6 +93,27 @@ set -gx FZF_DEFAULT_OPT "
 	--bind '?:toggle-preview'
 "
 
+
+#### ALIASES ####
+
+
+alias vime="vim -y" # working with (natural) languages with non-ascii characters like JP & AR is a nightmare in vim 
+alias zlf="~/zlf.sh"
+alias q=exit
+alias cl=clear
+alias frc="$EDITOR ~/.config/fish/config.fish"
+alias brc="$EDITOR ~/.bashrc"
+alias zrc="$EDITOR ~/.zshrc"
+alias zlrc="$EDITOR ~/.zl_profile"
+alias termmode="sudo systemctl isolate multi-user.target"
+alias graphmode="sudo systemctl isolate graphical.target"
+alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+alias lg=lazygit
+
+# kitty-specific
+alias icat="kitty +kitten icat"
+
+
 function gitcount
 	git ls-files | xargs wc -l
 end
@@ -71,33 +122,12 @@ function cpr
 	rsync --archive -v --chown=$USER:$USER $argv[1] $argv[2] 
 end
 
-if command -v eza &> /dev/null 
-	set ex eza
-else if command -v lsd &> /dev/null
-	set ex lsd
-end
-
-if ! test -z $ex
-	if string match $ex eza &> /dev/null 
-		set extra " modified"
-	end
-
-	alias ls="$ex --icons always --group-directories-first"
-	alias lsa="ls -al"
-	alias lst="ls -al -t$extra"
-	alias lss="ls -alS"
-end
-
-if command -v yazi &> /dev/null
-	alias lf=yazi
-end
-
 function yy
-	set tmp "$(mktemp -t "yazi-cwd.XXXXXX")"
+	set -l tmp "$(mktemp -t "yazi-cwd.XXXXXX")"
 
-	yazi "$argv" --cwd-file="$tmp"
+	yazi $argv --cwd-file="$tmp"
 
-	set cwd "$(cat -- "$tmp")"
+	set -l cwd "$(cat -- "$tmp")"
 
 	if $cwd; and test -n "$cwd"; and [ "$cwd" != "$PWD" ]
 		builtin cd -- "$cwd"
@@ -107,12 +137,12 @@ function yy
 end
 
 function gb  
-	set goname
+	set -l goname
 
 	if test -z $argv[1]
-		set goname cmd
+		set -l goname cmd
 	else
-		set goname $argv[1]
+		set -l goname $argv[1]
 	end
 
 	go build -o ./bin/$goname 
