@@ -1,24 +1,5 @@
 require("nvchad.configs.lspconfig").defaults()
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
-local servers = {
-  "ts_ls",
-  "cssls",
-  "basedpyright",
-  -- "svelte",
-  "templ",
-  "bashls",
-  "gopls",
-  "emmet_language_server",
-  "html",
-  "zls",
-  "yamlls",
-  "rust_analyzer",
-  -- "tailwindcss",
-}
-
-vim.lsp.enable(servers)
-
 vim.lsp.config("html", { filetypes = { "html", "gotmpl" } })
 vim.lsp.config("emmet_language_server", { filetypes = { "html", "gotmpl", "templ" } })
 
@@ -66,6 +47,7 @@ vim.lsp.config("zls", {
   settings = {
     zls = {
       enable_argument_placeholders = false,
+      warn_style = true,
     },
   },
 })
@@ -75,3 +57,35 @@ vim.lsp.config("rust_analyzer", {
     ["rust-analyzer"] = {},
   },
 })
+
+vim.lsp.config("basedpyright", {
+  settings = {
+    basedpyright = {
+      analysis = {
+        -- typeCheckingMode = "strict",
+        diagnosticSeverityOverrides = {
+          reportImplicitRelativeImport = false,
+        },
+      },
+    },
+  },
+})
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+local servers = {
+  "ts_ls",
+  "cssls",
+  "basedpyright",
+  -- "svelte",
+  "templ",
+  "bashls",
+  "gopls",
+  "emmet_language_server",
+  "html",
+  "zls",
+  "yamlls",
+  "rust_analyzer",
+  -- "tailwindcss",
+}
+
+vim.lsp.enable(servers)
