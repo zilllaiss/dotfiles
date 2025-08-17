@@ -14,7 +14,7 @@ set -gx WWW_HOME "www.duckduckgo.com"
 zoxide init --cmd cd fish | source
 
 
-#### COMMAND OVERRIDES ####
+#### COMMAND OVERRIDES AND CONFIGS ####
 
 
 alias code=codium
@@ -77,12 +77,12 @@ else
 	alias grep="grep --color=always"
 end
 
+if command -v micro &> /dev/null
+	alias nano=micro
+else
+	alias nano="nano --modernbindings"
+end
 
-#### COMMAND CONFIGS ####
-
-
-alias nano="nano --modernbindings"
-alias stow="stow --no-folding"
 
 # export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
 set -gx FZF_DEFAULT_OPT "
@@ -93,25 +93,10 @@ set -gx FZF_DEFAULT_OPT "
 	--bind '?:toggle-preview'
 "
 
+alias stow="stow --no-folding"
+
 
 #### ALIASES ####
-
-
-alias vime="vim -y" # working with (natural) languages with non-ascii characters like JP & AR is a nightmare in vim 
-alias zlf="~/zlf.sh"
-alias q=exit
-alias cl=clear
-alias frc="$EDITOR ~/.config/fish/config.fish"
-alias brc="$EDITOR ~/.bashrc"
-alias zrc="$EDITOR ~/.zshrc"
-alias zlrc="$EDITOR ~/.zl_profile"
-alias termmode="sudo systemctl isolate multi-user.target"
-alias graphmode="sudo systemctl isolate graphical.target"
-alias tmuxpi="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
-alias lg=lazygit
-
-# kitty-specific
-alias icat="kitty +kitten icat"
 
 
 function gitcount
@@ -149,7 +134,7 @@ function gb
 end
 
 # fedora
-function rpml 
+function rpm_list
 	rpm -qa | grep -E  $argv[1] | sort
 end
 
@@ -167,11 +152,11 @@ function stop
 	sleep $argv[2] && kill $(pgrep $argv[1])
 end
 
-function manv
+function man_vim
 	$argv | vim +MANPAGER -
 end
 
-function rn
+function rename
 	if test $(count $argv) -lt 1 
 		echo "you must specify the filename"
 		return 1
@@ -195,3 +180,40 @@ function rn
 
 	echo "file renamed to $new_name"
 end
+
+function private_mode
+	if ! test -z $fish_private_mode
+		set -gx fish_private_mode 
+		echo Private mode deactivated
+	else 
+		set -gx fish_private_mode true
+		echo Private mode activated
+	end
+end
+
+abbr pm private_mode
+abbr vime "vim -y" # working with (natural) languages with non-ascii characters like JP & AR is a nightmare in vim 
+abbr q exit
+abbr cl clear
+abbr termmode "sudo systemctl isolate multi-user.target"
+abbr graphmode "sudo systemctl isolate graphical.target"
+abbr lg lazygit
+abbr zlf "~/zlf.sh"
+abbr frc "$EDITOR ~/.config/fish/config.fish"
+abbr brc "$EDITOR ~/.bashrc"
+abbr zrc "$EDITOR ~/.zshrc"
+abbr zlrc "$EDITOR ~/.zl_profile"
+abbr tmuxpi "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
+abbr rpml rpm_list
+abbr rn rename
+abbr manv man_vim
+
+# kitty-specific
+abbr icat "kitty +kitten icat"
+
+
+#### BINDINGS ####
+
+
+bind --mode insert ctrl-r history-pager
+bind --mode insert ctrl-p 'private_mode; echo "Press enter to continue"; commandline -r ""'
