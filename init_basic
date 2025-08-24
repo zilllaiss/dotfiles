@@ -73,13 +73,14 @@ arch_primary_install() {
     pacman -Syy --noconfirm --needed --disable-download-timeout ufw reflector grub-btrfs \
         inotify-tools stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
         exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
-        fastfetch vnstat nethogs cryfs fwupd kio-admin ttf-ms-fonts
+        fastfetch vnstat nethogs cryfs fwupd kio-admin ttf-ms-fonts power-profiles-daemon \
+        pacman-contrib
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
     pacman -S --noconfirm --needed --disable-download-timeout gnome-disk-utility gwenview okular \
-        mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats
+        mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats 
 
-    systemctl enable --now ufw grub-btrfsd vnstat
+    systemctl enable --now ufw grub-btrfsd vnstat paccache.timer
     ufw default deny
 }
 

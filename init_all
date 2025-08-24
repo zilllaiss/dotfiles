@@ -16,11 +16,11 @@ arch_main_install() {
         fd ripgrep jq git-delta lazygit bat
 
     pacman -S --noconfirm --needed --disable-download-timeout kolourpaint \
-        libreoffice-fresh filelight keepassxc gnome-system-monitor kdeconnect  \
+        libreoffice-fresh filelight keepassxc kdeconnect  \
         kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
-        xdg-desktop-portal-gtk power-profiles-daemon kcron flatpak-kcm sshfs kweather \
+        xdg-desktop-portal-gtk kcron flatpak-kcm sshfs kweather \
         kcharselect quodlibet plasma-workspace-wallpapers bleachbit ttf-jetbrains-mono \
-		ttf-jetbrains-mono-nerd  
+		ttf-jetbrains-mono-nerd drkonqi
 
     amd64_install
 
