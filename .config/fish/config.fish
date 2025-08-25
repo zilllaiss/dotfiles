@@ -48,6 +48,20 @@ if command -v yazi &> /dev/null
 	alias lf=yazi
 end
 
+if command -v fzf &> /dev/null
+	# Set up fzf key bindings
+	fzf --fish | source
+
+	# export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
+	set -gx FZF_DEFAULT_OPT "
+		--bind 'ctrl-e:become(echo {+} | xargs -o $EDITOR)'
+		--bind 'ctrl-o:become(xdg-open {})'
+		--bind 'ctrl-l:become(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	
+		--bind 'ctrl-y:execute(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	
+		--bind '?:toggle-preview'
+	"
+end
+
 if command -v eza &> /dev/null 
 	set ex eza
 	set icon_flag '--icons'
@@ -83,15 +97,6 @@ else
 	alias nano="nano --modernbindings"
 end
 
-
-# export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
-set -gx FZF_DEFAULT_OPT "
-	--bind 'ctrl-e:become(echo {+} | xargs -o $EDITOR)'
-	--bind 'ctrl-o:become(xdg-open {})'
-	--bind 'ctrl-l:become(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	
-	--bind 'ctrl-y:execute(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	
-	--bind '?:toggle-preview'
-"
 
 alias stow="stow --no-folding"
 
