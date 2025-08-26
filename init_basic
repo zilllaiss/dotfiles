@@ -80,12 +80,12 @@ arch_primary_install() {
     pacman -S --noconfirm --needed --disable-download-timeout gnome-disk-utility gwenview okular \
         mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats 
 
-    systemctl enable --now ufw grub-btrfsd vnstat paccache.timer cups-socket reflector.timer
+    systemctl enable --now ufw grub-btrfsd vnstat paccache.timer cups-socket
     ufw default deny
 }
 
 arch_add_reflector() {
-    bash -c 'echo "--country SG" >> /etc/xdg/reflector/reflector.conf'
+    # bash -c 'echo "--country SG" >> /etc/xdg/reflector/reflector.conf'
     sed -i 's/^--latest.*/--latest 10/' "/etc/xdg/reflector/reflector.conf"
     systemctl enable --now reflector.service reflector.timer
 }
@@ -130,6 +130,7 @@ arch)
 cachyos)
     arch_primary_install
     arch_add_chaotic_aur
+    arch_add_reflector 
     make_zsh_default
 
     ;;
