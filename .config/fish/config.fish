@@ -17,26 +17,20 @@ zoxide init --cmd cd fish | source
 #### COMMAND OVERRIDES AND CONFIGS ####
 
 
+test -f ~/.zl_profile.fish; and source ~/.zl_profile.fish
+
 alias code=codium
+alias stow="stow --no-folding"
 
-if command -v go-wek &> /dev/null 
-	alias wrk=go-wrk
-end
+command -v go-wrk &> /dev/null; and alias wrk=go-wrk
+command -v go-task &> /dev/null; and alias task=go-task
+command -v yazi &> /dev/null; and alias lf=yazi
+command -v fd &> /dev/null; and alias find=fd
 
-if command -v go-task &> /dev/null
-	alias task=go-task
-end
+# additionally, you might want to edit /etc/pacman.conf if you use Arch (btw) to enable paru color support
+command -v bat &> /dev/null; and alias cat="bat --paging never"
 
-if test -f ~/.zl_profile.fish
- 	source ~/.zl_profile.fish
-end
-
-if command -v bat &> /dev/null
-	# additionally, you might want to edit /etc/pacman.conf if you use Arch (btw) to enable paru color support
-	alias cat="bat --paging never"
-end
-
-if command -v trash &> /dev/null
+command -v trash &> /dev/null; and begin
 	alias rm=trash
 	alias rml=trash-list
 	alias rmrf=trash-empty
@@ -44,11 +38,7 @@ if command -v trash &> /dev/null
 	alias rmr=trash-rm
 end
 
-if command -v yazi &> /dev/null
-	alias lf=yazi
-end
-
-if command -v fzf &> /dev/null
+command -v fzf &> /dev/null; and begin
 	# Set up fzf key bindings
 	fzf --fish | source
 
@@ -70,7 +60,7 @@ else if command -v lsd &> /dev/null
 	set icon_flag '--icon'
 end
 
-if ! test -z $ex
+test -z $ex; or begin
 	if string match $ex eza &> /dev/null 
 		set -l extra " modified"
 	end
@@ -79,10 +69,6 @@ if ! test -z $ex
 	alias lsa="ls -al"
 	alias lst="ls -al -t$extra"
 	alias lss="ls -alS"
-end
-
-if command -v fd &> /dev/null 
-	alias find=fd
 end
 
 if command -v rg &> /dev/null
@@ -96,9 +82,6 @@ if command -v micro &> /dev/null
 else
 	alias nano="nano --modernbindings"
 end
-
-
-alias stow="stow --no-folding"
 
 
 #### ALIASES ####
@@ -130,9 +113,9 @@ function gb
 	set -l goname
 
 	if test -z $argv[1]
-		set -l goname cmd
+		set goname cmd
 	else
-		set -l goname $argv[1]
+		set goname $argv[1]
 	end
 
 	go build -o ./bin/$goname 
@@ -154,36 +137,11 @@ function fif
 end
 
 function stop 
-	sleep $argv[2] && kill $(pgrep $argv[1])
+	sleep $argv[2]; and kill (pgrep $argv[1])
 end
 
 function man_vim
 	$argv | vim +MANPAGER -
-end
-
-function rename
-	if test $(count $argv) -lt 1 
-		echo "you must specify the filename"
-		return 1
-	end
-
-	if ! test -f $argv[1]
-		echo "no file like that"
-		return 1
-	end
-
-	echo "renaming file $argv[1]"
-
-	set -l splitted $(string split '.' $argv[1])
-	set -l sp_length $(count $splitted)
-	set -l ext $splitted[$sp_length]
-
-	echo "extension is .$ext"
-
-	set -l new_name $(randstring).$ext
-	mv $argv[1] $new_name
-
-	echo "file renamed to $new_name"
 end
 
 function private_mode
@@ -194,6 +152,11 @@ function private_mode
 		set -gx fish_private_mode true
 		echo Private mode activated
 	end
+end
+
+# to reduce memory (even when slightly) and to remind what functions available
+function act
+	source ~/.config/fish/actions.fish
 end
 
 abbr pm private_mode
@@ -210,7 +173,6 @@ abbr zrc "$EDITOR ~/.zshrc"
 abbr zlrc "$EDITOR ~/.zl_profile"
 abbr tmuxpi "git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm"
 abbr rpml rpm_list
-abbr rn rename
 abbr manv man_vim
 
 # kitty-specific
