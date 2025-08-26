@@ -44,28 +44,31 @@ function search_and_replace
             case -i 
                 set ignore_case '-i' 'I'
             case '*'
-                echo 'unrecognized flag'
-                return 1
+                set -a opts "$argv[$idx]"
             end
 
             set idx (math $idx + 1)
         end
     end
 
-    rg $ignore_case[1] "$original"; or begin
+    rg $ignore_case[1] $opts "$original"; or begin
         echo "nothing can be found"
         return 1
     end
 
-	read -P 'Continue? [y/N]: ' safety
+	read -P '
+Reminder: use regex that works for both ripgrep and sed.
+Continue? [y/N]: ' safety
+
 
 	string match -qi "$safety" y; or return 1
 
-    set files (rg $ignore_case[1] -l "$original")
+    set files (rg $ignore_case[1] $opts -l "$original")
 
 	sed -i "s/$original/$new/$ignore_case[2]g" $files
 
-    echo "File affected: "
+    echo "
+    File affected: "
     for file in $files 
         echo $file
     end

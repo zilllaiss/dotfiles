@@ -80,7 +80,7 @@ arch_primary_install() {
     pacman -S --noconfirm --needed --disable-download-timeout gnome-disk-utility gwenview okular \
         mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats 
 
-    systemctl enable --now ufw grub-btrfsd vnstat paccache.timer cups-socket
+    systemctl enable --now ufw grub-btrfsd vnstat paccache.timer cups-socket reflector.timer
     ufw default deny
 }
 
