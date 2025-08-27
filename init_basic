@@ -98,6 +98,8 @@ arch_add_chaotic_aur() {
 
     bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
     pacman -Sy --noconfirm --needed --disable-download-timeout paru octopi
+
+    if ! paru -S soar-bin --needed; then echo 'error installing software with paru'; fi
 }
 
 echo "initializing basic components..."

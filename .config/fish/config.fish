@@ -92,7 +92,7 @@ function gitcount
 end
 
 function cpr 
-	rsync --archive -v --chown=$USER:$USER $argv[1] $argv[2] 
+	rsync --archive -uv --chown=$USER:$USER $argv[1] $argv[2] 
 end
 
 function yy
