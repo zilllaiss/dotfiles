@@ -123,19 +123,17 @@ termux)
     ;;
 
 arch)
-    arch_primary_install
     arch_add_chaotic_aur
+    arch_primary_install
     arch_add_reflector
-    make_zsh_default
     ;;
 
 cachyos)
-    arch_primary_install
     arch_add_chaotic_aur
+    arch_primary_install
     arch_add_reflector 
-    make_zsh_default
-
     ;;
+
 fedora)
     dnf install -y vim zoxide btop wl-clipboard zsh fastfetch vnstat nethogs gnome-disk-utility \
         mpv trash-cli python3-shtab
