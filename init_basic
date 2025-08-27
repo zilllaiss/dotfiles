@@ -8,7 +8,7 @@ get_script_dir() {
     # Resolve symlinks recursively
     while [ -L "$SOURCE_PATH" ]; do
         # Get symlink directory
-        SYMLINK_DIR="$( cd -P "$( dirname "$SOURCE_PATH" )" >/dev/null 2>&1 && pwd )"
+        SYMLINK_DIR="$(cd -P "$(dirname "$SOURCE_PATH")" >/dev/null 2>&1 && pwd)"
         # Resolve symlink target (relative or absolute)
         SOURCE_PATH="$(readlink "$SOURCE_PATH")"
         # Check if candidate path is relative or absolute
@@ -18,7 +18,7 @@ get_script_dir() {
         fi
     done
     # Get final script directory path from fully resolved source path
-    SCRIPT_DIR="$(cd -P "$( dirname "$SOURCE_PATH" )" >/dev/null 2>&1 && pwd)"
+    SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE_PATH")" >/dev/null 2>&1 && pwd)"
     echo "$SCRIPT_DIR"
 }
 
@@ -52,7 +52,7 @@ fi
 read -p "Reminder: dont run manually with sudo as it will cause unexpected behavior, 
 Are you sure want to continue? [y/N]: " cont
 
-if [[ $cont != "y" ]]; then 
+if [[ $cont != "y" ]]; then
     echo 'operation aborted'
     exit 1
 fi
@@ -78,7 +78,7 @@ arch_primary_install() {
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
     pacman -S --noconfirm --needed --disable-download-timeout gnome-disk-utility gwenview okular \
-        mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats 
+        mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats
 
     systemctl enable --now ufw grub-btrfsd vnstat paccache.timer cups.socket
     ufw default deny
@@ -91,15 +91,20 @@ arch_add_reflector() {
 }
 
 arch_add_chaotic_aur() {
-    pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-    pacman-key --lsign-key 3056513887B78AEB
+    if ! pacman-key --list-keys | grep 3056513887B78AEB; then
+        pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+        pacman-key --lsign-key 3056513887B78AEB
+    fi
+
     pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
     pacman -U --noconfirm --needed 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
-    bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+    if ! grep '/etc/pacman.d/chaotic-mirrorlist' /etc/pacman.conf; then
+        bash -c "printf '[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+    fi
     pacman -Sy --noconfirm --needed --disable-download-timeout paru octopi
 
-    if ! paru -S soar-bin --needed; then echo 'error installing software with paru'; fi
+    if ! sudo --user=$u paru -S soar-bin --needed; then echo 'error installing software with paru'; fi
 }
 
 echo "initializing basic components..."
@@ -131,7 +136,7 @@ arch)
 cachyos)
     arch_add_chaotic_aur
     arch_primary_install
-    arch_add_reflector 
+    arch_add_reflector
     ;;
 
 fedora)
