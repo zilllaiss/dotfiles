@@ -24,7 +24,7 @@ arch_install () {
 flatpak_install () {
     flatpak install -y com.rafaelmardojai.Blanket \
 	io.github.diegoivanme.flowtime md.obsidian.Obsidian me.hyliu.fluentreader \
-	com.obsproject.Studio io.github.ungoogled_software.ungoogled_chromium
+	io.github.ungoogled_software.ungoogled_chromium
 
     # flatpak anki has some problems
 }

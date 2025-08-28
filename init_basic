@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#### INITS ####
+
 # https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
 get_script_dir() {
     local SOURCE_PATH="${BASH_SOURCE[0]}"
@@ -23,14 +25,10 @@ get_script_dir() {
 }
 
 export u=$([ -n "$1" ] && echo "$1" || echo "$USER")
-
-DISTRO_ID=
-
+export pacman_args=(-S --needed --disable-download-timeout --noconfirm)
 export DISTRO_ID=$([ -d "/data/data/com.termux" ] && echo "termux" ||
     echo $(source /etc/os-release && echo $ID))
 
-# NOTE: I tested this thing and the script should not run twice anymore.
-# But if it still do then this is the culprit
 if [ "$EUID" -ne 0 ]; then
     # you will need to discard all changes with git if you want to use all of the repo components
     dir_path="$(get_script_dir)"
@@ -69,18 +67,58 @@ make_zsh_default() {
     chsh -s $(which zsh) $u
 }
 
+# this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
+# using KDE font settings, etc.
+use_portal() {
+    if ! grep GTK_USE_PORTAL /etc/environment &>/dev/null; then
+        bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
+    fi
+}
+
+# GTK has rendering problem in low-end computers as it uses Vulkan now
+opengl_fallback() {
+    if ! grep GSK_RENDERER /etc/environment; then
+        read -p "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)
+        You can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.
+        Answer (y/N): " glopt
+
+        if [[ $glopt == y ]]; then
+            bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
+        fi
+    fi
+}
+
 arch_primary_install() {
-    pacman -Syy --noconfirm --needed --disable-download-timeout ufw reflector grub-btrfs \
+    pacman -Syy --noconfirm --needed --disable-download-timeout ufw reflector \
         inotify-tools stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
         exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
         fastfetch vnstat nethogs cryfs fwupd kio-admin ttf-ms-fonts power-profiles-daemon \
-        pacman-contrib print-manager cups
+        pacman-contrib print-manager cups fd ripgrep eza trash-cli python-shtab lazygit bat git-delta
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
-    pacman -S --noconfirm --needed --disable-download-timeout gnome-disk-utility gwenview okular \
-        mpv kalk kamoso krecorder spectacle btrfs-assistant kimageformats
+    pacman ${pacman_args[*]} gnome-disk-utility gwenview okular \
+        mpv kalk kamoso krecorder spectacle kimageformats libreoffice-fresh \
+        ffmpegthumbs kdeconnect kolourpaint filelight
 
-    systemctl enable --now ufw grub-btrfsd vnstat paccache.timer cups.socket
+    if df --output=fstype / | grep btrfs; then
+        # I tested this when using systemd-boot, so...
+        if [[ "$(cat /proc/1/comm)" != 'systemd' ]]; then
+            pacman ${pacman_args[*]} grub-btrfs
+            systemctl enable --now grub-btrfsd
+
+            sed -i 's/^ExecStart.*/ExecStart=\/usr\/bin\/grub-btrfsd --syslog -t/' \
+                "/etc/systemd/system/grub-btrfsd.service"
+        fi
+        pacman ${pacman_args[*]} btrfs-assistant
+    fi
+
+    # for kde connect
+    ufw allow 1716:1764/udp
+    ufw allow 1716:1764/tcp
+
+    use_portal
+
+    systemctl enable --now ufw vnstat paccache.timer cups.socket
     ufw default deny
 }
 
@@ -107,8 +145,6 @@ arch_add_chaotic_aur() {
     if ! sudo --user=$u paru -S soar-bin --needed; then echo 'error installing software with paru'; fi
 }
 
-echo "initializing basic components..."
-
 # lf and fzf might be available in you package managers, but usually they are out of date
 amd64_install() {
     #lf
@@ -121,6 +157,12 @@ amd64_install() {
     # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     # ~/.fzf/install
 }
+
+#### MAIN ####
+
+echo "initializing basic components..."
+
+opengl_fallback
 
 case "$DISTRO_ID" in
 termux)

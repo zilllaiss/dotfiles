@@ -12,58 +12,45 @@ amd64_install() {
 }
 
 arch_main_install() {
-    pacman -S --noconfirm --needed --disable-download-timeout eza trash-cli python-shtab neovim \
-        fd ripgrep jq git-delta lazygit bat
+    pacman ${pacman_args[*]} neovim jq
 
-    pacman -S --noconfirm --needed --disable-download-timeout kolourpaint \
-        libreoffice-fresh filelight keepassxc kdeconnect  \
-        kclock kjournald khelpcenter pdfarranger krdc krfb systemdgenie ffmpegthumbs \
-        xdg-desktop-portal-gtk kcron flatpak-kcm sshfs kweather \
-        kcharselect quodlibet plasma-workspace-wallpapers bleachbit ttf-jetbrains-mono \
-		ttf-jetbrains-mono-nerd drkonqi
+    pacman ${pacman_args[*]} keepassxc kclock kjournald khelpcenter pdfarranger krdc krfb \
+        systemdgenie kcron flatpak-kcm sshfs kweather kcharselect plasma-workspace-wallpapers \
+        bleachbit ttf-jetbrains-mono ttf-jetbrains-mono-nerd drkonqi vlc
 
     amd64_install
 
     sed -i 's/^#Color.*/Color/' "/etc/pacman.conf"
 
-    # this makes GTK apps listen to portal settings, like using Dolphin for filepicker,
-    # using KDE font settings, etc.
-    if ! grep GTK_USE_PORTAL /etc/environment &> /dev/null; then 
-        bash -c 'echo GTK_USE_PORTAL=1 >> /etc/environment'
-    fi
-
-    if ! grep GSK_RENDERER /etc/environment; then 
-        # GTK has rendering problem in low-end computers as it uses Vulkan now
-        read -p "Do you want to use OpenGL for rendering GTK apps? (RECOMMENDED)
-        You can always turn it off by deleting GSK_RENDERER=gl in /etc/environment.
-        Answer (y/N): " glopt
-
-        if [[ $glopt == y ]]; then
-            bash -c 'echo GSK_RENDERER=gl >> /etc/environment'
-        fi
-    fi
-
-    # for kde connect
-    ufw allow 1716:1764/udp
-    ufw allow 1716:1764/tcp
-
     # for timeshift scheduler. I'm commenting it out for now as for some reason snapshots created by
     # the scheduler is corrupt and it once broke my system
-    # UPDATE: let's try whether installing grub-btrfs will change this
     systemctl enable --now cronie
+}
 
-    sed -i 's/^ExecStart.*/ExecStart=\/usr\/bin\/grub-btrfsd --syslog -t/' \
-        "/etc/systemd/system/grub-btrfsd.service"
+install_flatpak() {
+    case "$DISTRO_ID" in
+    arch) pacman ${pacman_args[*]} flatpak ;;
+    esac
+}
+
+flatpak_prompt() {
+    response=
+    if ! command -v flatpak &>/dev/null; then read -p 'install flatpak? [y/N]: ' response; fi
+    if [[ $response == 'y' ]]; then
+        install_flatpak
+        echo 'please relogin in order for your apps to appear in menu'
+    fi
 }
 
 flatpak_basic() {
-    if ! command -v flatpak &> /dev/null; then 
-        echo "please install flatpak first then re-log in"
-        return
-    fi
+    flatpak_prompt
+    read -p 'install flatpak? [y/N]: ' response
+
+    [[ "$response" != 'y' ]] && return
 
     flatpak install -y io.github.flattool.Warehouse com.github.tchx84.Flatseal \
-        org.localsend.localsend_app org.freefilesync.FreeFileSync ca.desrt.dconf-editor
+        org.localsend.localsend_app org.freefilesync.FreeFileSync ca.desrt.dconf-editor \
+        org.onlyoffice.desktopeditors com.usebottles.bottles com.obsproject.Studio
 
     # NOTE: installing both flatpak-kcm and flatseal seems redundant,
     # but currently you can't set global setting for apps in flatpak-kcm.
@@ -71,7 +58,7 @@ flatpak_basic() {
     # integrates well with the system-settings.
 }
 
-if ! command -v oh-my-posh &> /dev/null; then 
+if ! command -v oh-my-posh &>/dev/null; then
     read -p 'do you want to install oh-my-posh (for shell customization)? (y/N)' answer
 
     if [[ $answer == y ]]; then
@@ -100,7 +87,7 @@ fedora)
         kcron kweather qmmp
 
     read -p "do you want to uninstall some redundant apps? [y/N]" remren
-    if [[ $remren == y ]]; then 
+    if [[ $remren == y ]]; then
         dnf remove -y dragon kcalc
     fi
 
@@ -112,8 +99,8 @@ ubuntu)
     amd64_install
 
     # lazygit
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" \
-        | grep -Po '"tag_name": "v\K[^"]*')
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" |
+        grep -Po '"tag_name": "v\K[^"]*')
 
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
