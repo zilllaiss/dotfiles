@@ -43,7 +43,8 @@ command -v fzf &> /dev/null; and begin
 	fzf --fish | source
 
 	# export FZF_DEFAULT_OPTS='--bind "ctrl-y:execute-silent(printf {} | cut -f 2- | wl-copy --trim-newline)"'
-	set -gx FZF_DEFAULT_OPT "
+	set -gx FZF_DEFAULT_OPTS "
+		--layout reverse
 		--bind 'ctrl-e:become(echo {+} | xargs -o $EDITOR)'
 		--bind 'ctrl-o:become(xdg-open {})'
 		--bind 'ctrl-l:become(readlink -f {} | wl-copy && echo item\ copied\ to\ clipboard)'	

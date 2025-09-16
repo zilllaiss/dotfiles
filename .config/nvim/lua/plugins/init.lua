@@ -127,4 +127,13 @@ return {
       -- enable_close_on_slash = false, -- Auto close on trailing </
     },
   },
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for vim.ui.select
+    },
+    config = true,
+  },
 }
