@@ -94,7 +94,7 @@ arch_primary_install() {
         exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
         fastfetch vnstat nethogs cryfs fwupd kio-admin ttf-ms-fonts power-profiles-daemon \
         pacman-contrib print-manager cups fd ripgrep eza trash-cli python-shtab lazygit \
-        bat git-delta sad
+        bat git-delta sad powertop
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
     pacman ${pacman_args[*]} gnome-disk-utility gwenview okular \

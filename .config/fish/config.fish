@@ -155,6 +155,27 @@ function private_mode
 	end
 end
 
+function get
+	if test (count $argv) -gt 0 
+		switch $argv[1]
+		case '-i'
+			pacman -Slq | fzf --style=full --preview="pacman -Si {}"
+			return
+		case '-q'
+			pacman -Qq | fzf --style=full --preview="pacman -Qi {}"
+			return
+		case '-u'
+			sudo pacman -Syu
+			return
+		end
+	end
+
+	set -l $softwares (pacman -Slq | fzf -m --style=full --preview="pacman -Si {}")
+	test (count $argv) -lt 1 && return 1
+
+	sudo pacman -S --needed $softwares
+end
+
 # to reduce memory (even when slightly) and to remind what functions available
 function act
 	source ~/.config/fish/actions.fish
