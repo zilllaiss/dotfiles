@@ -1,6 +1,9 @@
 echo "actions available to use:
-- rr : rename_random 1
-- sr : search_and_replace 1 2"
+- rr : alias of rename_random 1 => rename file to random string
+- sr : alias of search_and_replace 1 2 => search and replace things inside files
+- rgf : ripgrep + fzf
+- get : pacman & paru utilities
+"
 
 function rename_random
 	test (count $argv) -lt 1; and begin
@@ -72,6 +75,59 @@ Continue? [y/N]: ' safety
     for file in $files 
         echo $file
     end
+end
+
+function get
+	if test (count $argv) -gt 0 
+		switch $argv[1]
+		case '-i'
+			pacman -Slq | fzf --style=full --preview="pacman -Si {}"
+			return
+		case '-q'
+			pacman -Qq | fzf --style=full --preview="pacman -Qi {}"
+			return
+		case '-u'
+			sudo pacman -Syu
+			return
+		case '-a'
+			set -l softwares ( \
+				paru -Salq | fzf -m --ansi --style=full \
+					--preview="paru -Gp {} | bat --color=always --style=plain -l bash" \
+					--preview-window '~4,+{2}+4/3,<80(up)' \
+			)
+			test (count $softwares) -lt 1 && and return 1
+
+			paru -Sa --needed --skipreview $softwares
+			return
+		case '*'
+			echo "unrecognized flag $argv[1]"
+			return 1
+		end
+	end
+
+	set -l softwares (pacman -Slq | fzf -m --ansi --style=full --preview="pacman -Si {}")
+	test (count $softwares) -lt 1 && and return 1
+
+	sudo pacman -S --needed $softwares
+end
+
+function rgf
+	set -l RELOAD 'reload:rg --column --color=always --smart-case {q} || :'
+ 	set -l OPENER 'if test $FZF_SELECT_COUNT -eq 0 
+            nvim {1} +{2}     # No selection. Open the current line in Vim.
+          else
+            nvim +cw -q {+f}  # Build quickfix list for the selected items.
+          end'
+
+	fzf --disabled --ansi --multi \
+	    --bind "start:$RELOAD" --bind "change:$RELOAD" \
+	    --bind "enter:become:$OPENER" \
+	    --bind "ctrl-o:execute:$OPENER" \
+	    --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+	    --delimiter : \
+	    --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+	    --preview-window '~4,+{2}+4/3,<80(up)' \
+	    --query "$argv"
 end
 
 abbr sr search_and_replace
