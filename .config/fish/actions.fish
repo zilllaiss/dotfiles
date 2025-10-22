@@ -3,7 +3,20 @@ echo "actions available to use:
 - sr : alias of search_and_replace 1 2 => search and replace things inside files
 - rgf : ripgrep + fzf
 - get : pacman & paru utilities
+
+Additionally, completion for Taskfile is enabled.
 "
+
+set found_task false
+
+command -v go-task &> /dev/null; and begin
+	go-task --completion fish | source
+	set found_task true
+end
+
+if not $found_task; and command -v task &> /dev/null
+	task --completion fish | source
+end
 
 function rename_random
 	test (count $argv) -lt 1; and begin
@@ -97,7 +110,7 @@ function get
 			)
 			test (count $softwares) -lt 1 && and return 1
 
-			paru -Sa --needed --skipreview $softwares
+			paru -Sa --needed $softwares
 			return
 		case '*'
 			echo "unrecognized flag $argv[1]"
@@ -106,9 +119,76 @@ function get
 	end
 
 	set -l softwares (pacman -Slq | fzf -m --ansi --style=full --preview="pacman -Si {}")
-	test (count $softwares) -lt 1 && and return 1
+	test (count $softwares) -lt 1 && return 1
 
 	sudo pacman -S --needed $softwares
+end
+
+
+# UNFINISHED: Empty variable is not allowed in fish and 
+# I'm still figuring out how to circumvent that
+function get2
+    set pkg pacman
+    set main_arg '-S'
+    set is_install false
+    set _info _info
+    set pacman_info '-Si'
+    set paru_info '-Gp'
+
+	if test (count $argv) -gt 0 
+        for arg in $argv 
+            switch $arg
+            case '-i'
+                set maybe_suf _info
+
+            # this always uses pacman
+            case '-q'
+                pacman -Qq | fzf --style=full --preview="pacman -Qi {}"
+                return
+
+            case '-u'
+                set main_arg '-Syu'
+                set maybe_sudo sudo
+                set extra_args ''
+
+            case '-a'
+                set pkg paru
+                set extra_args 'a'
+                set maybe_sudo ''
+
+            case '*'
+                echo "unrecognized flag $arg"
+                return 1
+
+            end
+        end
+    else
+        set is_install true
+	end
+
+    if $is_install
+        set -a common_args ' --needed'
+    end
+
+    echo $pkg$_info
+
+    echo "$pkg $preview_arg {} | bat --color=always --style=plain -l bash"
+
+    set softwares ( \
+        $pkg -Slq$extra_args | fzf -m --ansi --style=full \
+            --preview="$pkg $preview_arg {} | bat --color=always --style=plain -l bash" \
+            --preview-window '~4,+{2}+4/3,<80(up)' \
+    )
+    test (count $softwares) -lt 1 && return 1
+
+    echo "running $maybe_sudo $pkg $main_arg$extra_args $common_args $softwares"
+
+    commandline --replace "$maybe_sudo $pkg $main_arg$extra_args $common_args $softwares"
+
+	# set -l softwares (pacman -Slq | fzf -m --ansi --style=full --preview="pacman -Si {}")
+	# test (count $softwares) -lt 1 && return 1
+
+	# sudo pacman -S --needed $softwares
 end
 
 function rgf

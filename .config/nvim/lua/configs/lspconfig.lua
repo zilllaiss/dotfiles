@@ -85,6 +85,7 @@ local servers = {
   "zls",
   "yamlls",
   "rust_analyzer",
+  "slint_lsp",
   -- "tailwindcss",
 }
 

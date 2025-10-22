@@ -192,6 +192,10 @@ fedora)
     amd64_install
     ;;
 
+debian)
+    sudo apt install zoxide fzf lf
+    ;;
+
 ubuntu)
     apt install stow vim zoxide
     amd64_install
