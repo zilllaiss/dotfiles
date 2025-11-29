@@ -6,6 +6,9 @@ local unmap = vim.keymap.del
 
 local tab = require "nvchad.tabufline"
 
+require "configs.harpoon"
+require "configs.slint"
+
 map("n", "<M-.>", function()
   tab.move_buf(1)
 end, { desc = "move buffer to the right" })
@@ -20,8 +23,6 @@ map("n", "<M-k>", "<C-u>")
 unmap("n", "<leader>h")
 unmap("n", "<space>e")
 -- unmap("n", "<space>m")
-
-require "configs.harpoon"
 
 map({ "n", "i" }, "<M-]>", function()
   require("nvchad.tabufline").next()
@@ -48,6 +49,9 @@ map(
   "<cmd>LspStart tailwindcss<CR>",
   { desc = "Start your janky tailwindcss LSP and make your editor slow" }
 )
+map("n", "<leader>ca", function ()
+    vim.lsp.buf.code_action()
+end, { desc = "Code action show"})
 
 -- todo list
 
@@ -62,9 +66,18 @@ map("n", "<leader>f'", function()
   telescope.marks {}
 end, { desc = "search vim marks" })
 
+-- this is need so telescope actually respect configs.telescope
+map("n", "<leader>fa", function ()
+    telescope.find_files()
+end)
+
+map("n", "<leader>fw", function ()
+    telescope.live_grep()
+end)
+
 -- blink
 
-local blink = require "blink.cmp"
+-- local blink = require "blink.cmp"
 
 -- map("i", "<M-q>", function ()
 --     blink.select_prev()

@@ -1,7 +1,7 @@
 require("nvchad.configs.lspconfig").defaults()
 
 vim.lsp.config("html", { filetypes = { "html", "gotmpl" } })
-vim.lsp.config("emmet_language_server", { filetypes = { "html", "gotmpl", "templ" } })
+vim.lsp.config("emmet_language_server", { filetypes = { "html", "gotmpl", "templ", "astro"} })
 
 vim.lsp.config("gopls", {
   settings = {
@@ -76,7 +76,7 @@ local servers = {
   "ts_ls",
   "cssls",
   "basedpyright",
-  -- "svelte",
+  "svelte",
   "templ",
   "bashls",
   "gopls",
@@ -86,6 +86,8 @@ local servers = {
   "yamlls",
   "rust_analyzer",
   "slint_lsp",
+  "clangd",
+  "astro",
   -- "tailwindcss",
 }
 

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-#### INITS ####
+
+
+########## INITS ##########
+
+
 
 # https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
 get_script_dir() {
@@ -129,6 +133,10 @@ arch_add_reflector() {
     systemctl enable --now reflector.service reflector.timer
 }
 
+arch_paccache() {
+    sed -i 's/^PACCACHE_ARGS.*/PACCACHE_ARGS="-rk1"' /etc/conf.d/pacman-contrib
+}
+
 arch_add_chaotic_aur() {
     if ! pacman-key --list-keys | grep 3056513887B78AEB; then
         pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -159,7 +167,11 @@ amd64_install() {
     # ~/.fzf/install
 }
 
-#### MAIN ####
+
+
+########## MAIN ##########
+
+
 
 echo "initializing basic components..."
 
@@ -174,12 +186,14 @@ arch)
     arch_add_chaotic_aur
     arch_primary_install
     arch_add_reflector
+    arch_paccache 
     ;;
 
 cachyos)
     arch_add_chaotic_aur
     arch_primary_install
     arch_add_reflector
+    arch_paccache 
     ;;
 
 fedora)
