@@ -1,4 +1,3 @@
-
 return {
   defaults = {
     prompt_prefix = "   ",
@@ -25,7 +24,7 @@ return {
     find_files = {
       -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
       -- find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" },
-      find_command = { "fd",  "--hidden", '--no-require-git' },
+      find_command = { "rg", "--files", "--hidden" },
     },
     live_grep = {
       -- find_command = { "rg", "--hidden", "-glob", "--no-ignore", "!**/.git/*" },
