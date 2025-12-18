@@ -8,7 +8,6 @@ set -gx CUSTOM_BIN ~/.local/bin
 set -gx CUSTOM_PATH ~/go/bin ~/.cargo/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/zig 
 set -gx PATH "$PATH:$CUSTOM_PATH"
 set -gx GO_TASK_PROGNAME go-task
-set -gx PAGER "bat"
 set -gx WWW_HOME "www.duckduckgo.com"
 
 zoxide init --cmd cd fish | source
@@ -29,7 +28,15 @@ command -v fd &> /dev/null; and alias find=fd
 set found_task false
 
 # additionally, you might want to edit /etc/pacman.conf if you use Arch (btw) to enable paru color support
-command -v bat &> /dev/null; and alias cat="bat --paging never"
+if command -v batcat &> /dev/null
+    set batname batcat
+else if command -v bat &> /dev/null; 
+    set batname bat
+end
+
+set -gx PAGER $batname
+alias bat="$batname --paging always --pager less"
+alias cat="$batname --paging never"
 
 command -v trash &> /dev/null; and begin
 	alias rm=trash
