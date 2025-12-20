@@ -4,6 +4,8 @@ local b = require "base46"
 local map = vim.keymap.set
 local unmap = vim.keymap.del
 
+require "configs.arabic"
+
 local tab = require "nvchad.tabufline"
 
 require "configs.harpoon"
