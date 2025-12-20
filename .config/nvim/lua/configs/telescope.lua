@@ -24,7 +24,7 @@ return {
     find_files = {
       -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
       -- find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" },
-      find_command = { "rg", "--files", "--hidden" },
+      find_command = { "rg", "--files", "--hidden", "-L" },
     },
     live_grep = {
       -- find_command = { "rg", "--hidden", "-glob", "--no-ignore", "!**/.git/*" },
