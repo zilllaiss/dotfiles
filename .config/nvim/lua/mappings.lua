@@ -51,9 +51,9 @@ map(
   "<cmd>LspStart tailwindcss<CR>",
   { desc = "Start your janky tailwindcss LSP and make your editor slow" }
 )
-map("n", "<leader>ca", function ()
-    vim.lsp.buf.code_action()
-end, { desc = "Code action show"})
+map("n", "<leader>ca", function()
+  vim.lsp.buf.code_action()
+end, { desc = "Code action show" })
 
 -- todo list
 
@@ -69,13 +69,16 @@ map("n", "<leader>f'", function()
 end, { desc = "search vim marks" })
 
 -- this is need so telescope actually respect configs.telescope
-map("n", "<leader>fa", function ()
-    telescope.find_files()
+map("n", "<leader>fa", function()
+  telescope.find_files()
 end)
 
-map("n", "<leader>fw", function ()
-    telescope.live_grep()
+map("n", "<leader>fw", function()
+  telescope.live_grep()
 end)
+
+map("n", "<leader>la", "o- [ ] ", { desc = "add a new markdown list" })
+map("n", "<leader>lc", "^f[lrx", { desc = "mark as complete a markdown list" })
 
 -- blink
 
