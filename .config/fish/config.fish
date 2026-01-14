@@ -5,7 +5,7 @@ set -g fish_key_bindings fish_vi_key_bindings
 
 set -gx EDITOR vim
 set -gx CUSTOM_BIN ~/.local/bin
-set -gx CUSTOM_PATH ~/go/bin ~/.cargo/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/zig 
+set -gx CUSTOM_PATH ~/go/bin ~/.cargo/bin /usr/local/go/bin ~/.bun/bin $CUSTOM_BIN $CUSTOM_BIN/paru ~/zig ~/.local/share/soar/bin ~/.local/share/nvim/mason/bin 
 set -gx PATH "$PATH:$CUSTOM_PATH"
 set -gx GO_TASK_PROGNAME go-task
 set -gx WWW_HOME "www.duckduckgo.com"
@@ -194,3 +194,4 @@ abbr icat "kitty +kitten icat"
 
 bind --mode insert ctrl-r history-pager
 bind --mode insert ctrl-p 'private_mode; echo "Press enter to continue"; commandline -r ""'
+
