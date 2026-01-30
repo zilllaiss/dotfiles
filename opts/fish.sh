@@ -1,9 +1,8 @@
 source /etc/os-release
 
-case "$ID_LIKE" in 
+case "$ID" in 
 arch)
-    sudo pacman -Sy --no-confirm fish fisher
-    fisher install pure-fish/pure
-    fish_config theme choose Nord
+    sudo pacman -Sy --noconfirm --needed fish fisher
+    fish -c "fisher install pure-fish/pure; and fish_config theme choose Nord"
     ;;
 esac

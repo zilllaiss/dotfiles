@@ -7,28 +7,10 @@ DefaultProfile=lauk.profile
 ConfigVersion=1
 
 [MainWindow]
-MenuBar=Disabled
 ToolBarsMovable=Enabled
-
-[MainWindow][Toolbar mainToolBar]
-ToolButtonStyle=IconOnly
-
-[MainWindow][Toolbar sessionToolbar]
-IconSize=16
-ToolButtonStyle=IconOnly
 
 [Notification Messages]
 CloseAllEmptyTabs=true
-
-[SaveHistory Settings]
-Recent URLs[$e]=file:$HOME/Desktop
-
-[Toolbar mainToolBar]
-ToolButtonStyle=IconOnly
-
-[Toolbar sessionToolbar]
-IconSize=16
-ToolButtonStyle=IconOnly
 
 [UiSettings]
 ColorScheme=

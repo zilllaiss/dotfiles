@@ -16,7 +16,7 @@ arch_main_install() {
 
     pacman ${pacman_args[*]} keepassxc kclock kjournald khelpcenter pdfarranger krdc krfb \
         systemdgenie kcron flatpak-kcm sshfs kweather kcharselect plasma-workspace-wallpapers \
-        bleachbit ttf-jetbrains-mono ttf-jetbrains-mono-nerd drkonqi vlc
+        bleachbit ttf-jetbrains-mono ttf-jetbrains-mono-nerd drkonqi vlc quodlibet
 
     amd64_install
 
@@ -50,7 +50,8 @@ flatpak_basic() {
 
     flatpak install -y io.github.flattool.Warehouse com.github.tchx84.Flatseal \
         org.localsend.localsend_app org.freefilesync.FreeFileSync ca.desrt.dconf-editor \
-        org.onlyoffice.desktopeditors com.usebottles.bottles com.obsproject.Studio
+        org.onlyoffice.desktopeditors com.usebottles.bottles com.obsproject.Studio \
+        it.mijorus.gearlever 
 
     # NOTE: installing both flatpak-kcm and flatseal seems redundant,
     # but currently you can't set global setting for apps in flatpak-kcm.
@@ -94,6 +95,10 @@ fedora)
     amd64_install
     ;;
 
+debian)
+    flatpak install -y io.github.quodlibet.QuodLibet 
+    ;;
+
 ubuntu)
     apt install eza jq trash-cli neovim
     amd64_install
@@ -107,7 +112,8 @@ ubuntu)
     install lazygit $CUSTOM_BIN
     ;;
 
-linuxmint) ;;
+linuxmint) 
+    ;;
 
 esac
 

@@ -1,6 +1,4 @@
 if [ "$EUID" -ne 0 ]; then
-    stow . --no-folding
-
     sudo "$0" "$@"
     exit $?
 fi

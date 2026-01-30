@@ -1,11 +1,12 @@
 set -euo pipefail
 
+BIN_DIR=~/.local/bin
+mkdir -p "$BIN_DIR"
+
 curl -fsSL "https://raw.githubusercontent.com/pkgforge/soar/main/install.sh" | sh
 
 soar defconfig --external
 soar sync
-
-read -p ' to PATH?'
 
 echo "
 Soar successfully installed!

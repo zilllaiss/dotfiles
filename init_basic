@@ -64,6 +64,7 @@ if [ -z "$CUSTOM_BIN" ]; then
 fi
 
 mkdir -p $CUSTOM_BIN
+chown $u:$u $CUSTOM_BIN
 
 set -euo pipefail
 
@@ -95,15 +96,15 @@ opengl_fallback() {
 arch_primary_install() {
     pacman -Syy --noconfirm --needed --disable-download-timeout ufw reflector \
         inotify-tools stow btop ntfs-3g wl-clipboard rsync less man-db udftools \
-        exfatprogs dosfstools f2fs-tools vim zoxide unzip zsh tmux fzf lf system-config-printer \
-        fastfetch vnstat nethogs cryfs fwupd kio-admin ttf-ms-fonts power-profiles-daemon \
+        exfatprogs dosfstools f2fs-tools vim zoxide unzip tmux fzf yazi system-config-printer \
+        fastfetch vnstat nethogs gocryptfs fwupd kio-admin ttf-ms-fonts power-profiles-daemon \
         pacman-contrib print-manager cups fd ripgrep eza trash-cli python-shtab lazygit \
         bat git-delta sad powertop
 
     # gui for basic use. disk partitioning is much nicer in gui, other things covered by the terminal
     pacman ${pacman_args[*]} gnome-disk-utility gwenview okular \
-        mpv kalk kamoso krecorder spectacle kimageformats libreoffice-fresh \
-        ffmpegthumbs kdeconnect kolourpaint filelight
+        haruna kalk kamoso krecorder spectacle kimageformats libreoffice-fresh \
+        ffmpegthumbs kolourpaint filelight firefox dolphin-plugins kdegraphics-thumbnailers
 
     if df --output=fstype / | grep btrfs; then
         # I tested this when using systemd-boot, so...
@@ -117,9 +118,11 @@ arch_primary_install() {
         pacman ${pacman_args[*]} btrfs-assistant
     fi
 
+    # for some reason after an update, kde connect makes my wifi driver unusable
+    # pacman ${pacman_args[*]} kdeconnect
     # for kde connect
-    ufw allow 1716:1764/udp
-    ufw allow 1716:1764/tcp
+    # ufw allow 1716:1764/udp
+    # ufw allow 1716:1764/tcp
 
     use_portal
 
